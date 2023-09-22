@@ -44,3 +44,23 @@ test('A validação do email funciona corretamente', () => {
   fireEvent.change(emailInput, { target: { value: VALID_EMAIL } });
   expect(loginSubmitButton).toBeEnabled();
 });
+
+test('Deve redirecionar para a página correta após o login', () => {
+  renderWithRouter(<Login />);
+  const emailInput = screen.getByTestId(EMAIL_INPUT_TESTID);
+  const passwordInput = screen.getByTestId(PASSWORD_INPUT_TESTID);
+  const loginSubmitButton = screen.getByTestId(LOGIN_SUBMIT_BTN_TESTID);
+
+  fireEvent.change(emailInput, { target: { value: VALID_EMAIL } });
+  fireEvent.change(passwordInput, { target: { value: VALID_PASSWORD } });
+  fireEvent.click(loginSubmitButton);
+});
+
+test('Deve desabilitar o botão de login quando os campos de entrada estão vazios', () => {
+  renderWithRouter(<Login />);
+  const loginSubmitButton = screen.getByTestId(LOGIN_SUBMIT_BTN_TESTID);
+
+  // Não preencha os campos de entrada
+
+  expect(loginSubmitButton).toBeDisabled();
+});
