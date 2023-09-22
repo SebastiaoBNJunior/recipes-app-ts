@@ -1,6 +1,6 @@
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-// import SearchBar from './SearchBar';
+// import SearchBar from './SearchBardf';
 
 type HeaderProps = {
   title: string,
