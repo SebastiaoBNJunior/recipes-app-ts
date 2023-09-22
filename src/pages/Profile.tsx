@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 function Profile() {
   return (
     <>
-      <Header />
+      <Header title="Profile" />
       <p>Oi, eu sou a Profile</p>
       <Footer />
     </>

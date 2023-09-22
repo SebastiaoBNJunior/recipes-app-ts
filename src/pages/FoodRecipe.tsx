@@ -8,7 +8,7 @@ function FoodRecipe() {
 
   return (
     <>
-      <Header />
+      <Header title="Meals" search />
       {mealResults.length > 0 ? (
         <RecipeList recipes={ mealResults } />
       ) : (

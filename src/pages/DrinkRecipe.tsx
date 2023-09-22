@@ -9,7 +9,7 @@ function DrinkRecipe() {
 
   return (
     <>
-      <Header />
+      <Header title="Drinks" search />
       {drinkResults.length > 0 ? (
         <DrinkRecipeList drinks={ drinkResults } />
       ) : (
