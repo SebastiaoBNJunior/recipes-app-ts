@@ -4,7 +4,9 @@ import Header from '../../components/Header';
 
 test('Verificando se os elementos estão na tela', async () => {
   renderWithRouter(<Header title="fsd" search />);
-  const heading = screen.getByRole('heading');
+  const headH1 = screen.getByRole('heading');
+  const aElement = screen.getByRole('link');
 
-  expect(heading).toBeVisible();
+  expect(headH1).toBeVisible();
+  expect(aElement).toHaveAttribute('href', '/profile');
 });
