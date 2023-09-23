@@ -9,6 +9,7 @@ import DrinkRecipe from './pages/DrinkRecipe';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipe from './pages/FavoriteRecipe';
+import Recipes from './pages/Recipes';
 
 function App() {
   return (
@@ -18,12 +19,11 @@ function App() {
       <Route path="/drinks/:id-da-receita" element={ <MainScreenDrink /> } />
       <Route path="/meals/:id-da-receita/in-progress" element={ <DetailsFood /> } />
       <Route path="/drinks/:id-da-receita/in-progress" element={ <DetailsDrink /> } />
-      <Route path="/meals" element={ <FoodRecipe /> } />
-      <Route path="/drinks" element={ <DrinkRecipe /> } />
+      <Route path="/meals" element={ <Recipes type="meals" /> } />
+      <Route path="/drinks" element={ <Recipes type="drinks" /> } />
       <Route path="/profile" element={ <Profile /> } />
       <Route path="/done-recipes" element={ <DoneRecipes /> } />
       <Route path="/favorite-recipes" element={ <FavoriteRecipe /> } />
-
     </Routes>
   );
 }
