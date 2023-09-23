@@ -11,13 +11,13 @@ type HeaderProps = {
 function Header({ title, search = false }:HeaderProps) {
   const [button, setButton] = useState(false);
 
-  // function handlerBtn() {
-  //   if (!button) {
-  //     setButton(true);
-  //   } else {
-  //     setButton(false);
-  //   }
-  // }
+  function handlerBtn() {
+    if (!button) {
+      setButton(true);
+    } else {
+      setButton(false);
+    }
+  }
 
   return (
     <header>
@@ -30,13 +30,15 @@ function Header({ title, search = false }:HeaderProps) {
         />
       </a>
       {search && (
-        <a href="a">
+        <button
+          onClick={ handlerBtn }
+        >
           <img
             src={ searchIcon }
-            alt="Ícone de pesquisa"
             data-testid="search-top-btn"
+            alt="Ícone de pesquisa"
           />
-        </a>
+        </button>
       )}
       {
         button && (
