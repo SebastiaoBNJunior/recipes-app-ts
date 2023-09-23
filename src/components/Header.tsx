@@ -10,6 +10,11 @@ type HeaderProps = {
 
 function Header({ title, search = false }:HeaderProps) {
   const [button, setButton] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (e:any) => {
+    setInputValue(e.target.value);
+  };
 
   function handlerBtn() {
     if (!button) {
@@ -44,10 +49,16 @@ function Header({ title, search = false }:HeaderProps) {
         button && (
           <>
             <label htmlFor="search">Busca:</label>
-            <input id="search" type="text" data-testid="search-input" />
+            <input
+              id="search"
+              value={ inputValue }
+              type="text"
+              data-testid="search-input"
+              onChange={ handleInputChange }
+            />
           </>)
       }
-      <SearchBar />
+      <SearchBar valueInput={ inputValue } />
     </header>
   );
 }
