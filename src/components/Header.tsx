@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-// import SearchBar from './SearchBardf';
+import SearchBar from './SearchBar';
 
 type HeaderProps = {
   title: string,
@@ -47,6 +47,7 @@ function Header({ title, search = false }:HeaderProps) {
             <input id="search" type="text" data-testid="search-input" />
           </>)
       }
+      <SearchBar />
     </header>
   );
 }
