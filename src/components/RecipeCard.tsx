@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface RecipeCardProps {
-  id: any;
-  name: any;
-  image: any;
-  index: any;
+  id: string;
+  name: string;
+  image: string;
+  index: number;
 }
 
 function RecipeCard({ id, name, image, index }: RecipeCardProps) {
