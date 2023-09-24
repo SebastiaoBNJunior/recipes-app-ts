@@ -9,7 +9,7 @@ interface RecipeListProps {
   }>;
 }
 
-function RecipeList({ recipes }: RecipeListProps) {
+function MealRecipeList({ recipes }: RecipeListProps) {
   const limitedRecipes = recipes.slice(0, 12);
 
   return (
@@ -27,4 +27,4 @@ function RecipeList({ recipes }: RecipeListProps) {
   );
 }
 
-export default RecipeList;
+export default MealRecipeList;
