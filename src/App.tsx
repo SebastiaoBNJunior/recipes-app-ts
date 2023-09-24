@@ -12,6 +12,7 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipe from './pages/FavoriteRecipe';
 import Recipes from './pages/Recipes';
 import Footer from './components/Footer';
+// import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   const location = useLocation();
@@ -20,15 +21,19 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={ <Login /> } />
+        <Route path="/meals/:id-da-receit" element={ <MainScreenFood /> } />
+        <Route path="/drinks/:id-da-receita" element={ <MainScreenDrink /> } />
         <Route path="/meals/:id-da-receita/in-progress" element={ <DetailsFood /> } />
         <Route path="/drinks/:id-da-receita/in-progress" element={ <DetailsDrink /> } />
-        <Route path="/meals/:id-da-receita" element={ <MainScreenFood /> } />
-        <Route path="/drinks/:id-da-receita" element={ <MainScreenDrink /> } />
-        <Route path="/meals" element={ <Recipes type="meals" /> } />
-        <Route path="/drinks" element={ <Recipes type="drinks" /> } />
+        <Route path="/meals" element={ <FoodRecipe /> } />
+        <Route path="/drinks" element={ <DrinkRecipe /> } />
         <Route path="/profile" element={ <Profile /> } />
         <Route path="/done-recipes" element={ <DoneRecipes /> } />
         <Route path="/favorite-recipes" element={ <FavoriteRecipe /> } />
+        {/* <Route path="/meals/:id-da-receita" element={ <RecipeDetails /> } />
+        <Route path="/drinks/:id-da-receita" element={ <RecipeDetails /> } /> */}
+        <Route path="/meals" element={ <Recipes type="meals" /> } />
+        <Route path="/drinks" element={ <Recipes type="drinks" /> } />
       </Routes>
 
       {location.pathname !== '/' && <Footer />}

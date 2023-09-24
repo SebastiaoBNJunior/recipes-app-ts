@@ -3,6 +3,16 @@ const BASE_URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1';
 
 export type FetchFunction = () => Promise<Response>;
 
+export function fetchMealsByIdRecipe(idRecipe: string): Promise<Response> {
+  const url = `${BASE_URL_MEALS}/lookup.php?i=${idRecipe}`;
+  return fetch(url);
+}
+
+export function fetchDrinksByIdRecipe(idRecipe: string): Promise<Response> {
+  const url = `${BASE_URL_DRINKS}lookup.php?i=${idRecipe}`;
+  return fetch(url);
+}
+
 export function fetchMealsByIngredient(ingredient: string): Promise<Response> {
   const url = `${BASE_URL_MEALS}/filter.php?i=${ingredient}`;
   return fetch(url);
