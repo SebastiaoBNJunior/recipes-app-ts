@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRecipeContext } from '../context/search-results-context';
-import RecipeList from '../components/MealRecipeList';
+import MealRecipeList from '../components/MealRecipeList';
 import DrinkRecipeList from '../components/DrinkRecipeList';
 import Header from '../components/Header';
 import { fetchMealsByName, fetchDrinksByName } from '../api';
@@ -32,7 +32,7 @@ function Recipes({ type }: RecipesProps) {
   return (
     <div>
       <Header title={ type === 'meals' ? 'Meals' : 'Drinks' } search />
-      {type === 'meals' && <RecipeList recipes={ mealResults } />}
+      {type === 'meals' && <MealRecipeList recipes={ mealResults } />}
       {type === 'drinks' && <DrinkRecipeList drinks={ drinkResults } />}
     </div>
   );

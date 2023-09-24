@@ -1,6 +1,6 @@
-import Footer from '../components/Footer';
+// import Footer from '../components/Footer';
 import Header from '../components/Header';
-import RecipeList from '../components/MealRecipeList';
+import MealRecipeList from '../components/MealRecipeList';
 import { useRecipeContext } from '../context/search-results-context';
 
 function FoodRecipe() {
@@ -10,11 +10,10 @@ function FoodRecipe() {
     <>
       <Header title="Meals" search />
       {mealResults.length > 0 ? (
-        <RecipeList recipes={ mealResults } />
+        <MealRecipeList recipes={ mealResults } />
       ) : (
         <p>Nenhum resultado encontrado para comidas.</p>
       )}
-      <Footer />
     </>
   );
 }
