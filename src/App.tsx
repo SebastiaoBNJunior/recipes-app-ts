@@ -5,7 +5,6 @@ import MainScreenFood from './pages/MainScreenFood';
 import MainScreenDrink from './pages/MainScreenDrink';
 import DetailsFood from './pages/detailsFood';
 import DetailsDrink from './pages/DetailsDrink';
-
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipe from './pages/FavoriteRecipe';
@@ -29,9 +28,7 @@ function App() {
         <Route path="/favorite-recipes" element={ <FavoriteRecipe /> } />
         {/* <Route path="/meals/:id-da-receita" element={ <RecipeDetails /> } />
         <Route path="/drinks/:id-da-receita" element={ <RecipeDetails /> } /> */}
-        {/* type="meals" */}
         <Route path="/meals" element={ <Recipes /> } />
-        {/* type="drinks" */}
         <Route path="/drinks" element={ <Recipes /> } />
       </Routes>
 

@@ -6,11 +6,6 @@ import DrinkRecipeList from '../components/DrinkRecipeList';
 import Header from '../components/Header';
 import { fetchMealsByName, fetchDrinksByName } from '../api';
 
-// type RecipesProps = {
-//   type: 'meals' | 'drinks';
-// };
-// { type }: RecipesProps
-
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
