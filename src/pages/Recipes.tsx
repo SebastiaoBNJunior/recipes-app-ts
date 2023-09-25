@@ -6,11 +6,6 @@ import DrinkRecipeList from '../components/DrinkRecipeList';
 import Header from '../components/Header';
 import { fetchMealsByName, fetchDrinksByName } from '../api';
 
-// type RecipesProps = {
-//   type: 'meals' | 'drinks';
-// };
-// { type }: RecipesProps
-
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
@@ -20,13 +15,17 @@ function Recipes() {
 
   useEffect(() => {
     if (pathname.includes('meals')) {
+      console.log('meals');
       fetchMealsByName('').then((response) => response.json()).then((data) => {
+        console.log(data);
         setMealResults(data.meals);
       }).catch((error) => {
         console.error('Erro ao buscar refeições:', error);
       });
     } else if (pathname.includes('drinks')) {
+      console.log('drinks');
       fetchDrinksByName('').then((response) => response.json()).then((data) => {
+        console.log(data);
         setDrinkResults(data.drinks);
       }).catch((error) => {
         console.error('Erro ao buscar bebidas:', error);
