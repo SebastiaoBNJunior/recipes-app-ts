@@ -7,16 +7,12 @@ import Header from '../components/Header';
 import { fetchMealsByName, fetchDrinksByName,
   fetchMealsByCategory, fetchDrinksByCategory } from '../api';
 
-  type FiveCategory = {
-    strCategory: string,
-  }[];
-
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
 
-  const [recipesCategory, setRecipesCategory] = useState<FiveCategory>([]);
-  console.log(recipesCategory);
+  const [recipesCategory, setRecipesCategory] = useState({});
+  // console.log();
 
   const location = useLocation();
   const { pathname } = location;
@@ -58,13 +54,19 @@ function Recipes() {
   return (
     <>
       <Header title={ pathname.includes('meals') ? 'Meals' : 'Drinks' } search />
-      <span>
-        {/* {
-          recipesCategory.slice(0, 5).map((recipe, index) => (
-            <button key={index}>{recipe.strCategory}<button/>
-          ))
-        } */}
-      </span>
+      {
+          Object.values(recipesCategory)
+            .map((recipe:any) => recipe.slice(0, 5)
+              .map((rc:any, index:number) => (
+                <button
+                  key={ index }
+                  data-testid={ `${rc.strCategory}-category-filter` }
+                >
+                  {rc.strCategory}
+
+                </button>
+              )))
+        }
       {
         pathname.includes('meals')
           ? <MealRecipeList recipes={ mealResults } />
