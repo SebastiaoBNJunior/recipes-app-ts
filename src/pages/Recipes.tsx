@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecipeContext } from '../context/search-results-context';
 import MealRecipeList from '../components/MealRecipeList';
+
 import DrinkRecipeList from '../components/DrinkRecipeList';
 import Header from '../components/Header';
 import { fetchMealsByName, fetchDrinksByName,
