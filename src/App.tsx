@@ -1,8 +1,6 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Login from './components/Login';
-import MainScreenFood from './pages/MainScreenFood';
-import MainScreenDrink from './pages/MainScreenDrink';
 import DetailsFood from './pages/detailsFood';
 import DetailsDrink from './pages/DetailsDrink';
 import Profile from './pages/Profile';
@@ -19,8 +17,8 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={ <Login /> } />
-        <Route path="/meals/:id-da-receita" element={ <MainScreenFood /> } />
-        <Route path="/drinks/:id-da-receita" element={ <MainScreenDrink /> } />
+        <Route path="/meals/:id-da-receita" element={ <DetailsFood /> } />
+        <Route path="/drinks/:id-da-receita" element={ <DetailsDrink /> } />
         <Route path="/meals/:id-da-receita/in-progress" element={ <DetailsFood /> } />
         <Route path="/drinks/:id-da-receita/in-progress" element={ <DetailsDrink /> } />
         <Route path="/profile" element={ <Profile /> } />
