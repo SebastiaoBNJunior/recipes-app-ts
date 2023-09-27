@@ -8,12 +8,23 @@ interface RecipeListProps {
   }>;
 }
 
-function MealRecipeList({ recipes }: RecipeListProps) {
+interface FilterCategoryProps {
+  strDrink: string;
+  strDrinkThumb: string;
+  idDrink: string;
+}
+
+interface CombineProps {
+  recipes: RecipeListProps;
+  filterCategory: FilterCategoryProps[];
+}
+
+function MealRecipeList({ recipes, filterCategory }: CombineProps) {
   const limitedRecipes = recipes.slice(0, 12);
 
   return (
     <div>
-      {limitedRecipes.map((recipe, index) => (
+      {limitedRecipes.map((recipe: any, index: number) => (
         <RecipeCard
           key={ recipe.idMeal }
           index={ index }

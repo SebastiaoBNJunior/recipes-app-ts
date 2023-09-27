@@ -16,7 +16,7 @@ function Recipes() {
     drinkResults, setDrinkResults } = useRecipeContext();
 
   const [recipesCategory, setRecipesCategory] = useState({});
-  const [filterCategory, setFilterCategory] = useState<object[]>([]);
+  const [filterCategory, setFilterCategory] = useState([]);
   console.log(filterCategory);
 
   const location = useLocation();
@@ -57,16 +57,12 @@ function Recipes() {
   }, []);
 
   async function handleCategoryFilter(category:string) {
-    const fetchFilterMeals = await fetchFilterMealsByCategory(category);
-    console.log(fetchFilterMeals);
-    const fetchFilterDrinks = await fetchFilterDrinksByCategory(category);
-    console.log(fetchFilterDrinks);
     switch (pathname) {
       case '/meals':
-        setFilterCategory(fetchFilterMeals);
+        setFilterCategory(await fetchFilterMealsByCategory(category));
         break;
       case '/drinks':
-        setFilterCategory(fetchFilterDrinks);
+        setFilterCategory(await fetchFilterDrinksByCategory(category));
         break;
       default:
     }
@@ -90,10 +86,19 @@ function Recipes() {
                 </button>
               )))
         }
+      <span>
+        <button
+          data-testid="All-category-filter"
+          // onClick={}
+        >
+          All
+
+        </button>
+      </span>
       {
         pathname.includes('meals')
-          ? <MealRecipeList recipes={ mealResults } />
-          : <DrinkRecipeList drinks={ drinkResults } />
+          ? <MealRecipeList recipes={ mealResults } filter={ filterCategory } />
+          : <DrinkRecipeList drinks={ drinkResults } filter={ filterCategory } />
       }
     </>
   );
