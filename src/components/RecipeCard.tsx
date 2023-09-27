@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import RecipeDetails from './RecipeDetails';
 
 interface RecipeCardProps {
   id: string;
@@ -25,6 +26,7 @@ function RecipeCard({ id, name, image, index }: RecipeCardProps) {
 
       </Link>
       <p data-testid={ `${index}-card-name` }>{name}</p>
+      <RecipeDetails />
     </div>
   );
 }

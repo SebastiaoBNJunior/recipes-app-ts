@@ -1,12 +1,12 @@
 import RecipeDetails from '../components/RecipeDetails';
 
-function DetailsDrink() {
+function DetailsFood() {
   return (
     <div>
-      <p>Oi, eu sou a DetailsDrink</p>
+      <p>Oi, eu sou a DetailsFood</p>
       <RecipeDetails />
     </div>
   );
 }
 
-export default DetailsDrink;
+export default DetailsFood;
