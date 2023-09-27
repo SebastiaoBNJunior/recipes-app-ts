@@ -3,6 +3,20 @@ const BASE_URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1';
 
 export type FetchFunction = () => Promise<Response>;
 
+export async function fetchFilterMealsByCategory(category: string) {
+  const url = `${BASE_URL_MEALS}/filter.php?c=${category}`;
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  return jsonData;
+}
+
+export async function fetchFilterDrinksByCategory(category: string) {
+  const url = `${BASE_URL_DRINKS}/filter.php?c=${category}`;
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  return jsonData;
+}
+
 // requisição API req.20
 export async function fetchMealsByCategory() {
   const url = `${BASE_URL_MEALS}/list.php?c=list`;
@@ -24,7 +38,7 @@ export function fetchMealsByIdRecipe(idRecipe: string): Promise<Response> {
 }
 
 export function fetchDrinksByIdRecipe(idRecipe: string): Promise<Response> {
-  const url = `${BASE_URL_DRINKS}lookup.php?i=${idRecipe}`;
+  const url = `${BASE_URL_DRINKS}/lookup.php?i=${idRecipe}`;
   return fetch(url);
 }
 
