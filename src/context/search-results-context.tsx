@@ -38,9 +38,6 @@ export function RecipeProvider({ children }: RecipeProviderProps) {
   const [mealResults, setMealResults] = useState<Meal[]>([]);
   const [drinkResults, setDrinkResults] = useState<Drink[]>([]);
 
-  console.log('Meal Results:', mealResults);
-  console.log('Drink Results:', drinkResults);
-
   return (
     <RecipeContext.Provider
       value={ {

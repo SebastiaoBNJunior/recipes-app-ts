@@ -1,6 +1,11 @@
+import RecipeDetails from '../components/RecipeDetails';
+
 function DetailsFood() {
   return (
-    <p>Oi, eu sou a DetailsFood</p>
+    <div>
+      <p>Oi, eu sou a DetailsFood</p>
+      <RecipeDetails />
+    </div>
   );
 }
 

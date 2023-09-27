@@ -18,14 +18,20 @@ export async function fetchDrinksByCategory() {
   return jsonData;
 }
 
-export function fetchMealsByIdRecipe(idRecipe: string): Promise<Response> {
+export async function
+fetchMealsByIdRecipe(idRecipe: string | undefined): Promise<Response> {
   const url = `${BASE_URL_MEALS}/lookup.php?i=${idRecipe}`;
-  return fetch(url);
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  return jsonData;
 }
 
-export function fetchDrinksByIdRecipe(idRecipe: string): Promise<Response> {
+export async function
+fetchDrinksByIdRecipe(idRecipe: string | undefined): Promise<Response> {
   const url = `${BASE_URL_DRINKS}lookup.php?i=${idRecipe}`;
-  return fetch(url);
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  return jsonData;
 }
 
 export function fetchMealsByIngredient(ingredient: string): Promise<Response> {
