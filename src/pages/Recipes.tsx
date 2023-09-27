@@ -6,14 +6,18 @@ import MealRecipeList from '../components/MealRecipeList';
 import DrinkRecipeList from '../components/DrinkRecipeList';
 import Header from '../components/Header';
 import { fetchMealsByName, fetchDrinksByName,
-  fetchMealsByCategory, fetchDrinksByCategory } from '../api';
+  fetchMealsByCategory, fetchDrinksByCategory,
+  fetchFilterMealsByCategory, fetchFilterDrinksByCategory } from '../api';
+
+// type InputButton = React.MouseEvent<HTMLButtonElement>
 
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
 
   const [recipesCategory, setRecipesCategory] = useState({});
-  // console.log();
+  const [filterCategory, setFilterCategory] = useState<object[]>([]);
+  console.log(filterCategory);
 
   const location = useLocation();
   const { pathname } = location;
@@ -52,6 +56,22 @@ function Recipes() {
     }
   }, []);
 
+  async function handleCategoryFilter(category:string) {
+    const fetchFilterMeals = await fetchFilterMealsByCategory(category);
+    console.log(fetchFilterMeals);
+    const fetchFilterDrinks = await fetchFilterDrinksByCategory(category);
+    console.log(fetchFilterDrinks);
+    switch (pathname) {
+      case '/meals':
+        setFilterCategory(fetchFilterMeals);
+        break;
+      case '/drinks':
+        setFilterCategory(fetchFilterDrinks);
+        break;
+      default:
+    }
+  }
+
   return (
     <>
       <Header title={ pathname.includes('meals') ? 'Meals' : 'Drinks' } search />
@@ -62,6 +82,8 @@ function Recipes() {
                 <button
                   key={ index }
                   data-testid={ `${rc.strCategory}-category-filter` }
+                  value={ rc.strCategory }
+                  onClick={ () => handleCategoryFilter(rc.strCategory) }
                 >
                   {rc.strCategory}
 
