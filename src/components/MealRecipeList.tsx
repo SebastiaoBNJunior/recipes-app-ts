@@ -35,15 +35,15 @@ function MealRecipeList(
 
   function filterCategory(categorySelected:string) {
     const filters = recipes.filter((recipe) => recipe.strCategory === categorySelected);
-    if (filters.length > 12) return filters.slice(0, 12);
+    if (filters.length > 12) return filters;
     return filters;
   }
 
   const filterCategories = filterCategory(category);
-  if (filterCategories.length === 1) {
-    // Se a categoria retornar apenas um resultado, não renderize o RecipeCard.
-    return null;
-  }
+  // if (filterCategories.length === 1) {
+  //   // Se a categoria retornar apenas um resultado, não renderize o RecipeCard.
+  //   return null;
+  // }
   console.log(filterCategories);
 
   const limitedRecipes = recipes.slice(0, 12);

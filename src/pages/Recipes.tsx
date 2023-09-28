@@ -14,7 +14,7 @@ import { fetchMealsByName, fetchDrinksByName,
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
-  // console.log(mealResults);
+  console.log(mealResults);
 
   const [recipesCategory, setRecipesCategory] = useState({});
   const [filterCategory, setFilterCategory] = useState([]);
