@@ -7,7 +7,7 @@ import RecipeCard from './RecipeCard';
 // }
 
 // interface ClickButtonProps {
-// click: boolean | undefined;
+// cldsfsadfasick: boolean | undefined;
 // }
 
 interface RecipeListProps {
