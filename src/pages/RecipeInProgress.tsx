@@ -1,7 +1,29 @@
 import { useParams } from 'react-router-dom';
+// import { fetchMealsByIdRecipe, fetchDrinksByIdRecipe } from '../api';
+
+interface RecipeProps {
+  photo: string;
+  title: string;
+  category: string;
+  isAlcoholic: string;
+  ingredients: string;
+  instructions: string;
+}
 
 function RecipeInProgress() {
-  const { id } = useParams;
+  const { id } = useParams();
+
+  // async function fetchMeals() {
+  //   const response = await fetchMealsByIdRecipe(id);
+  //   const data = response.json();
+  //   return data;
+  // }
+
+  // async function fetchDrinks() {
+  //   const response = await fetchDrinksByIdRecipe(id);
+  //   const data = response.json();
+  //   return data;
+  // }
 
   const recipe = /* FUNÇÃO PARA RETORNAR O OBJETO */ (id);
 
