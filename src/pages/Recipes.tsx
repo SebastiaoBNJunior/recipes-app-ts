@@ -14,10 +14,16 @@ import { fetchMealsByName, fetchDrinksByName,
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
+  // console.log(mealResults);
 
   const [recipesCategory, setRecipesCategory] = useState({});
   const [filterCategory, setFilterCategory] = useState([]);
-  console.log(filterCategory);
+  const [clickButton, setClickButton] = useState(Boolean);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  console.log(selectedCategory);
+
+  // console.log(clickButton);
+  // console.log(filterCategory);
 
   const location = useLocation();
   const { pathname } = location;
@@ -57,6 +63,8 @@ function Recipes() {
   }, []);
 
   async function handleCategoryFilter(category:string) {
+    setClickButton(true);
+    setSelectedCategory(category);
     switch (pathname) {
       case '/meals':
         setFilterCategory(await fetchFilterMealsByCategory(category));
@@ -72,34 +80,43 @@ function Recipes() {
     <>
       <Header title={ pathname.includes('meals') ? 'Meals' : 'Drinks' } search />
       {
-          Object.values(recipesCategory)
-            .map((recipe:any) => recipe.slice(0, 5)
-              .map((rc:any, index:number) => (
-                <button
-                  key={ index }
-                  data-testid={ `${rc.strCategory}-category-filter` }
-                  value={ rc.strCategory }
-                  onClick={ () => handleCategoryFilter(rc.strCategory) }
-                >
-                  {rc.strCategory}
+Object.values(recipesCategory)
+  .map((recipe:any) => recipe.slice(0, 5)
+    .map((rc:any, index:number) => (
+      <button
+        key={ index }
+        data-testid={ `${rc.strCategory}-category-filter` }
+        value={ rc.strCategory }
+        onClick={ () => handleCategoryFilter(rc.strCategory) }
+      >
+        {rc.strCategory}
 
-                </button>
-              )))
-        }
+      </button>
+    )))
+}
       <span>
         <button
+          onClick={ () => setClickButton(false) }
           data-testid="All-category-filter"
-          // onClick={}
         >
           All
 
         </button>
       </span>
       {
-        pathname.includes('meals')
-          ? <MealRecipeList recipes={ mealResults } filter={ filterCategory } />
-          : <DrinkRecipeList drinks={ drinkResults } filter={ filterCategory } />
-      }
+pathname.includes('meals')
+  ? <MealRecipeList
+      recipes={ mealResults } /* Resultado vindo do context */
+      filter={ filterCategory } /* Retorno do Array das categorias */
+      click={ clickButton } /* estado local boolean */
+      category={ selectedCategory }
+  />
+  : <DrinkRecipeList
+      drinks={ drinkResults }
+      filter={ filterCategory }
+      click={ clickButton }
+  />
+}
     </>
   );
 }
