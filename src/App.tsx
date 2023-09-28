@@ -18,8 +18,8 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={ <Login /> } />
-        <Route path="/meals/:id-da-receita" element={ <DetailsFood /> } />
-        <Route path="/drinks/:id-da-receita" element={ <DetailsDrink /> } />
+        <Route path="/meals/:id" element={ <DetailsFood /> } />
+        <Route path="/drinks/:id" element={ <DetailsDrink /> } />
         <Route path="/meals/:id/in-progress" element={ <RecipeInProgress /> } />
         <Route path="/drinks/:id/in-progress" element={ <RecipeInProgress /> } />
         <Route path="/profile" element={ <Profile /> } />
