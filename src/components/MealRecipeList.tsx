@@ -16,6 +16,7 @@ interface RecipeListProps {
     idMeal: string;
     strMeal: string;
     strMealThumb: string;
+    strCategory: string;
   }>;
   filter: Array<{ // Conferir essa tipagem //
     strMeal: string;
@@ -23,14 +24,24 @@ interface RecipeListProps {
     idMeal: string;
   }>;
   click: boolean | undefined;
+  category: string;
 }
 
 function MealRecipeList(
-  { recipes, filter, click }: RecipeListProps,
+  { recipes, filter, click, category }: RecipeListProps,
 ) {
   console.log(filter); // Attention //
-  console.log(click); // Attention //
   console.log(recipes); // Attention //
+  console.log(category);
+
+  function filterCategory(categorySelected:string) {
+    const filters = recipes.filter((recipe) => recipe.strCategory === categorySelected);
+    console.log(filters);
+    return filters;
+  }
+
+  const filterCategories = filterCategory(category);
+  console.log(filterCategories);
 
   const limitedRecipes = recipes.slice(0, 12);
 

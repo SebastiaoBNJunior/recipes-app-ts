@@ -14,11 +14,13 @@ import { fetchMealsByName, fetchDrinksByName,
 function Recipes() {
   const { mealResults, setMealResults,
     drinkResults, setDrinkResults } = useRecipeContext();
-  console.log(mealResults);
+  // console.log(mealResults);
 
   const [recipesCategory, setRecipesCategory] = useState({});
   const [filterCategory, setFilterCategory] = useState([]);
   const [clickButton, setClickButton] = useState(Boolean);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  console.log(selectedCategory);
 
   // console.log(clickButton);
   // console.log(filterCategory);
@@ -62,6 +64,7 @@ function Recipes() {
 
   async function handleCategoryFilter(category:string) {
     setClickButton(true);
+    setSelectedCategory(category);
     switch (pathname) {
       case '/meals':
         setFilterCategory(await fetchFilterMealsByCategory(category));
@@ -106,6 +109,7 @@ function Recipes() {
               recipes={ mealResults } /* Resultado vindo do context */
               filter={ filterCategory } /* Retorno do Array das categorias */
               click={ clickButton } /* estado local boolean */
+              category={ selectedCategory }
           />
           : <DrinkRecipeList
               drinks={ drinkResults }
