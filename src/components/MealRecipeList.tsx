@@ -1,13 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
 
 // interface FilterCategoryProps {
-// strDrink: string;
-// strDrinkThumb: string;
-// idDrink: string;
+//   strDrink: string;
+//   strDrinkThumb: string;
+//   idDrink: string;
 // }
 
 // interface ClickButtonProps {
-// cldsfsadfasick: boolean | undefined;
+//   click: boolean | undefined;
 // }
 
 interface RecipeListProps {
