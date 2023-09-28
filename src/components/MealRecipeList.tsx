@@ -30,17 +30,21 @@ interface RecipeListProps {
 function MealRecipeList(
   { recipes, filter, click, category }: RecipeListProps,
 ) {
-  console.log(filter); // Attention //
+// console.log(filter); // Attention //
   console.log(recipes); // Attention //
-  console.log(category);
+  // console.log(category);
 
   function filterCategory(categorySelected:string) {
     const filters = recipes.filter((recipe) => recipe.strCategory === categorySelected);
-    console.log(filters);
+    if (filters.length > 12) return filters;
     return filters;
   }
 
   const filterCategories = filterCategory(category);
+  // if (filterCategories.length === 1) {
+  //   // Se a categoria retornar apenas um resultado, não renderize o RecipeCard.
+  //   return null;
+  // }
   console.log(filterCategories);
 
   const limitedRecipes = recipes.slice(0, 12);
@@ -48,24 +52,24 @@ function MealRecipeList(
   return (
     <div>
       {
-      !click ? limitedRecipes.map((recipe: any, index: number) => (
-        <RecipeCard
-          key={ recipe.idMeal }
-          index={ index }
-          id={ recipe.idMeal }
-          name={ recipe.strMeal }
-          image={ recipe.strMealThumb }
-        />
-      )) : recipes.map((recipe: any, index: number) => (
-        <RecipeCard
-          key={ recipe.idMeal }
-          index={ index }
-          id={ recipe.idMeal }
-          name={ recipe.strMeal }
-          image={ recipe.strMealThumb }
-        />
-      ))
-      }
+!click ? limitedRecipes.map((recipe: any, index: number) => (
+  <RecipeCard
+    key={ recipe.idMeal }
+    index={ index }
+    id={ recipe.idMeal }
+    name={ recipe.strMeal }
+    image={ recipe.strMealThumb }
+  />
+)) : filterCategories.map((recipe: any, index: number) => (
+  <RecipeCard
+    key={ recipe.idMeal }
+    index={ index }
+    id={ recipe.idMeal }
+    name={ recipe.strMeal }
+    image={ recipe.strMealThumb }
+  />
+))
+}
     </div>
   );
 }
