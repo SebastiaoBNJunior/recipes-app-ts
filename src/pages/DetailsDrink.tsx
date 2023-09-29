@@ -1,6 +1,12 @@
+import StartRecipeButton from '../components/StartRecipeButton';
+import RecipeDetails from '../components/RecipeDetails';
+
 function DetailsDrink() {
   return (
-    <p>Oi, eu sou a DetailsDrink</p>
+    <>
+      <RecipeDetails />
+      <StartRecipeButton />
+    </>
   );
 }
 
