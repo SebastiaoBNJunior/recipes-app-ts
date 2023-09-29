@@ -1,6 +1,14 @@
+import StartRecipeButton from '../components/StartRecipeButton';
+import RecipeDetails from '../components/RecipeDetails';
+import MainScreenFood from '../components/RecomendedFood';
+
 function DetailsFood() {
   return (
-    <p>Oi, eu sou a DetailsFood</p>
+    <>
+      <RecipeDetails />
+      <StartRecipeButton />
+      <MainScreenFood />
+    </>
   );
 }
 
