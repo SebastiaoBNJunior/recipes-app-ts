@@ -17,6 +17,8 @@ type RecipeContextType = {
   drinkResults: Drink[];
   setMealResults: React.Dispatch<React.SetStateAction<Meal[]>>;
   setDrinkResults: React.Dispatch<React.SetStateAction<Drink[]>>;
+  clickButton: boolean;
+  setClickButton: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const RecipeContext = createContext<RecipeContextType>({
@@ -24,6 +26,8 @@ const RecipeContext = createContext<RecipeContextType>({
   drinkResults: [],
   setMealResults: () => {},
   setDrinkResults: () => {},
+  clickButton: false,
+  setClickButton: () => {},
 });
 
 export function useRecipeContext() {
@@ -37,6 +41,7 @@ type RecipeProviderProps = {
 export function RecipeProvider({ children }: RecipeProviderProps) {
   const [mealResults, setMealResults] = useState<Meal[]>([]);
   const [drinkResults, setDrinkResults] = useState<Drink[]>([]);
+  const [clickButton, setClickButton] = useState(false);
 
   // console.log('Meal Results:', mealResults);
   // console.log('Drink Results:', drinkResults);
@@ -48,6 +53,8 @@ export function RecipeProvider({ children }: RecipeProviderProps) {
         setMealResults,
         drinkResults,
         setDrinkResults,
+        clickButton,
+        setClickButton,
       } }
     >
       {children}

@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
+import { useRecipeContext } from '../context/search-results-context';
 
 // interface FilterCategoryProps {
 //   strDrink: string;
@@ -23,16 +24,14 @@ interface RecipeListProps {
     strMealThumb: string;
     idMeal: string;
   }>;
-  click: boolean | undefined;
   category: string;
 }
 
 function MealRecipeList(
-  { recipes, filter, click, category }: RecipeListProps,
+  { recipes, filter, category }: RecipeListProps,
 ) {
-// console.log(filter); // Attention //
+  const { clickButton } = useRecipeContext();
   console.log(recipes); // Attention //
-  // console.log(category);
 
   function filterCategory(categorySelected:string) {
     const filters = recipes.filter((recipe) => recipe.strCategory === categorySelected);
@@ -52,7 +51,7 @@ function MealRecipeList(
   return (
     <div>
       {
-!click ? limitedRecipes.map((recipe: any, index: number) => (
+!clickButton ? limitedRecipes.map((recipe: any, index: number) => (
   <RecipeCard
     key={ recipe.idMeal }
     index={ index }

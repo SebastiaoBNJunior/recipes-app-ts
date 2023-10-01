@@ -13,12 +13,12 @@ import { fetchMealsByName, fetchDrinksByName,
 
 function Recipes() {
   const { mealResults, setMealResults,
-    drinkResults, setDrinkResults } = useRecipeContext();
+    drinkResults, setDrinkResults,
+    clickButton, setClickButton } = useRecipeContext();
   console.log(mealResults);
 
   const [recipesCategory, setRecipesCategory] = useState({});
   const [filterCategory, setFilterCategory] = useState([]);
-  const [clickButton, setClickButton] = useState(Boolean);
   const [selectedCategory, setSelectedCategory] = useState('');
   console.log(selectedCategory);
 
