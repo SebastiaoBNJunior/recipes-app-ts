@@ -16,6 +16,9 @@ function Recipes() {
     setFilterDrinksCategory, setClickButton } = useRecipeContext();
 
   const [recipesCategory, setRecipesCategory] = useState({});
+  const [categoriesSelected, setCategoriesSelected] = useState(['']);
+  console.log(categoriesSelected);
+  console.log(categoriesSelected.length);
 
   // console.log(clickButton);
   // console.log(filterMealsCategory);
@@ -59,6 +62,8 @@ function Recipes() {
 
   async function handleCategoryFilter(category:string) {
     setClickButton(true);
+    setCategoriesSelected((prev) => [...prev, category]);
+    if (categoriesSelected.includes(category)) setClickButton(false);
     switch (pathname) {
       case '/meals':
         setFilterMealsCategory(await fetchFilterMealsByCategory(category));
