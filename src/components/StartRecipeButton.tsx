@@ -1,7 +1,10 @@
 import React, { CSSProperties } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function StartRecipeButton() {
+  const location = useLocation();
+  const { pathname } = location;
+
   // Estilo para o botão
   const buttonStyle: React.CSSProperties = {
     position: 'fixed', // fixa o elem. na tela
@@ -16,7 +19,11 @@ function StartRecipeButton() {
   return (
     // Renderiza o botão como um link para a tela de receita em progresso
     <button>
-      <Link to="/RecipeProgress" style={ buttonStyle } data-testid="start-recipe-btn">
+      <Link
+        to={ `${pathname}/in-progress` }
+        style={ buttonStyle }
+        data-testid="start-recipe-btn"
+      >
         Start Recipe
       </Link>
     </button>
