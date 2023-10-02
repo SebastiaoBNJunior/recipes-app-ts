@@ -12,18 +12,13 @@ import { fetchMealsByName, fetchDrinksByName,
 // type InputButton = React.MouseEvent<HTMLButtonElement>
 
 function Recipes() {
-  const { mealResults, setMealResults,
-    drinkResults, setDrinkResults } = useRecipeContext();
-  console.log(mealResults);
+  const { setMealResults, setDrinkResults, setFilterMealsCategory,
+    setFilterDrinksCategory, setClickButton } = useRecipeContext();
 
   const [recipesCategory, setRecipesCategory] = useState({});
-  const [filterCategory, setFilterCategory] = useState([]);
-  const [clickButton, setClickButton] = useState(Boolean);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  console.log(selectedCategory);
 
   // console.log(clickButton);
-  // console.log(filterCategory);
+  // console.log(filterMealsCategory);
 
   const location = useLocation();
   const { pathname } = location;
@@ -64,13 +59,12 @@ function Recipes() {
 
   async function handleCategoryFilter(category:string) {
     setClickButton(true);
-    setSelectedCategory(category);
     switch (pathname) {
       case '/meals':
-        setFilterCategory(await fetchFilterMealsByCategory(category));
+        setFilterMealsCategory(await fetchFilterMealsByCategory(category));
         break;
       case '/drinks':
-        setFilterCategory(await fetchFilterDrinksByCategory(category));
+        setFilterDrinksCategory(await fetchFilterDrinksByCategory(category));
         break;
       default:
     }
@@ -105,17 +99,8 @@ Object.values(recipesCategory)
       </span>
       {
 pathname.includes('meals')
-  ? <MealRecipeList
-      recipes={ mealResults } /* Resultado vindo do context */
-      filter={ filterCategory } /* Retorno do Array das categorias */
-      click={ clickButton } /* estado local boolean */
-      category={ selectedCategory }
-  />
-  : <DrinkRecipeList
-      drinks={ drinkResults }
-      filter={ filterCategory }
-      click={ clickButton }
-  />
+  ? <MealRecipeList />
+  : <DrinkRecipeList />
 }
     </>
   );
