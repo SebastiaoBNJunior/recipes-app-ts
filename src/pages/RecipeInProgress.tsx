@@ -1,4 +1,4 @@
-import RecipeProgress from '../components/RecipeProgress';
+import RecipeProgress from '../components/RecipeMealInProgess';
 
 function RecipeInProgress() {
   return (

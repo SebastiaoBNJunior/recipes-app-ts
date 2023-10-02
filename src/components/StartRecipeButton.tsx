@@ -1,8 +1,12 @@
 import React, { CSSProperties } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function StartRecipeButton() {
+  const location = useLocation();
+  const { pathname } = location;
+
   // Estilo para o botão
-  const buttonStyle: CSSProperties = {
+  const buttonStyle: React.CSSProperties = {
     position: 'fixed', // fixa o elem. na tela
     bottom: '0', // coloca o elem. na base da tela
     left: '50%', // centraliza horizontalmente
@@ -13,9 +17,15 @@ function StartRecipeButton() {
   };
 
   return (
-    // Renderiza o botão com o atributo data-testid e com o estilo aplicado diretamente.
-    <button style={ buttonStyle } data-testid="start-recipe-btn">
-      Start Recipe
+    // Renderiza o botão como um link para a tela de receita em progresso
+    <button>
+      <Link
+        to={ `${pathname}/in-progress` }
+        style={ buttonStyle }
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </Link>
     </button>
   );
 }
