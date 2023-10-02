@@ -1,4 +1,4 @@
-function RecipeProgress() {
+function RecipeMealInProgress() {
   return (
     <h1>
       Sou RecipeProgress
@@ -6,4 +6,4 @@ function RecipeProgress() {
   );
 }
 
-export default RecipeProgress;
+export default RecipeMealInProgress;

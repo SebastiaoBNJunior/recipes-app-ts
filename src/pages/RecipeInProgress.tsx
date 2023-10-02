@@ -1,10 +1,21 @@
-import RecipeProgress from '../components/RecipeMealInProgess';
+import { useLocation } from 'react-router-dom';
+import RecipeDrinkInProgress from '../components/RecipeDrinkInProgress';
+import RecipeMealInProgress from '../components/RecipeMealInProgess';
+import ShareFavBtn from '../components/ShereFavBtn';
 
 function RecipeInProgress() {
+  const location = useLocation();
+  const { pathname } = location;
+  console.log(pathname);
+
   return (
     <div>
-      <RecipeProgress />
+      {
+        pathname.includes('drinks') ? <RecipeDrinkInProgress /> : <RecipeMealInProgress />
+      }
+      <ShareFavBtn />
     </div>
+
   );
 }
 
