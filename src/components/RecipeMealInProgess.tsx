@@ -8,7 +8,7 @@ function RecipeMealInProgress() {
   console.log(id);
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
 
-  async function retornoMealsAPI() {
+  async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
     // console.log(mealsAPI);
     const data = await mealsAPI.json();
@@ -17,7 +17,7 @@ function RecipeMealInProgress() {
   }
 
   useEffect(() => {
-    retornoMealsAPI();
+    returnMealsAPI();
   }, []);
 
   // console.log(recipeData);
@@ -28,11 +28,11 @@ function RecipeMealInProgress() {
 
   const { meals } = recipeData;
   const [meal] = meals;
-  const arrayDeIngredientes = Object.entries(meal);
-  const filtroMeals = arrayDeIngredientes.filter((ingredient) => (
+  const ingredientOfArray = Object.entries(meal);
+  const mealsFilter = ingredientOfArray.filter((ingredient) => (
     ingredient[0].includes('strIngredient')
   )).filter((ingredient) => ingredient[1] !== '');
-  console.log(filtroMeals);
+  console.log(mealsFilter);
 
   return (
     <div>
@@ -48,7 +48,7 @@ function RecipeMealInProgress() {
       )} */}
       <h2>Ingredientes:</h2>
       <ul>
-        {filtroMeals.map((ingredient, index) => (
+        {mealsFilter.map((ingredient, index) => (
           <li key={ index }>{ingredient[1]}</li>
         ))}
       </ul>
