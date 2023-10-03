@@ -20,7 +20,7 @@ function RecipeMealInProgress() {
     returnMealsAPI();
   }, []);
 
-  // console.log(recipeData);
+  console.log(recipeData);
 
   if (!recipeData) {
     return <div>Carregando...</div>;
@@ -31,7 +31,7 @@ function RecipeMealInProgress() {
   const ingredientOfArray = Object.entries(meal);
   const mealsFilter = ingredientOfArray.filter((ingredient) => (
     ingredient[0].includes('strIngredient')
-  )).filter((ingredient) => ingredient[1] !== '');
+  )).filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
   console.log(mealsFilter);
 
   return (
@@ -43,15 +43,23 @@ function RecipeMealInProgress() {
       />
       <h1 data-testid="recipe-title">{ meal.strMeal }</h1>
       <p data-testid="recipe-category">{ meal.strCategory }</p>
-      {/* {recipeData.isAlcoholic && (
-        <p data-testid="recipe-alcoholic">Alcoólico</p>
-      )} */}
       <h2>Ingredientes:</h2>
-      <ul>
+      <div>
         {mealsFilter.map((ingredient, index) => (
-          <li key={ index }>{ingredient[1]}</li>
+          <span key={ index }>
+            <label
+              htmlFor={ String(ingredient) }
+              data-testid={ `${index}-ingredient-step` }
+            >
+              <input
+                type="checkbox"
+                name={ String(ingredient) }
+              />
+              {ingredient[1]}
+            </label>
+          </span>
         ))}
-      </ul>
+      </div>
       <h2>Instruções:</h2>
       <p data-testid="instructions">{meal.strInstructions}</p>
       <button data-testid="share-btn">Compartilhar</button>

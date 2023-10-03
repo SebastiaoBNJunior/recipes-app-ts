@@ -32,7 +32,7 @@ function RecipeDrinkInProgress() {
   console.log(ingredientArray);
   const filterDrinks = ingredientArray.filter((ingredient) => (
     ingredient[0].includes('strIngredient')
-  )).filter((ingredient) => ingredient[1] !== null);
+  )).filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
   console.log(filterDrinks);
 
   return (
@@ -44,20 +44,31 @@ function RecipeDrinkInProgress() {
       />
       <h1 data-testid="recipe-title">{ drink.strDrink }</h1>
       <p data-testid="recipe-category">{ drink.strCategory }</p>
-      {/* {recipeData.isAlcoholic && (
-        <p data-testid="recipe-alcoholic">Alcoólico</p>
-      )} */}
-      <h2>Ingredientes:</h2>
-      <ul>
+      {drink.strAlcoholic && (
+        <p data-testid="recipe-alcoholic">Alcoholic</p>
+      )}
+      <h2>Ingredients:</h2>
+      <div>
         {filterDrinks.map((ingredient, index) => (
-          <li key={ index }>{ingredient[1]}</li>
+          <span key={ index }>
+            <label
+              htmlFor={ String(ingredient) }
+              data-testid={ `${index}-ingredient-step` }
+            >
+              <input
+                type="checkbox"
+                name={ String(ingredient) }
+              />
+              {ingredient[1]}
+            </label>
+          </span>
         ))}
-      </ul>
-      <h2>Instruções:</h2>
+      </div>
+      <h2>Instructions:</h2>
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <button data-testid="share-btn">Compartilhar</button>
-      <button data-testid="favorite-btn">Favoritar</button>
-      <button data-testid="finish-recipe-btn">Finalizar Receita</button>
+      <button data-testid="share-btn">Share</button>
+      <button data-testid="favorite-btn">Favorite</button>
+      <button data-testid="finish-recipe-btn">Finish Recipe</button>
     </div>
   );
 }
