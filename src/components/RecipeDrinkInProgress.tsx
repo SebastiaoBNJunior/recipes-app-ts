@@ -1,7 +1,7 @@
 function RecipeDrinkInProgress() {
   return (
     <h1>
-      Sou RecipeProgress
+      Sou RecipeProgress Drinks
     </h1>
   );
 }
