@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { FilterDrinkContext, FilterMealContext } from '../typesCleidson';
+import { FilterDrinkContext, FilterMealContext,
+  RecipeMeal, RecipeDrink } from '../typesCleidson';
+import { INITIAL_VALUE_RECIPE_MEAL, INITIAL_VALUE_RECIPE_DRINK } from '../INITIAL_VALUE';
 
 export interface Meal {
   idMeal: string;
@@ -37,7 +39,9 @@ type RecipeContextType = {
   filterMealsCategory: FilterMealContext;
   setFilterMealsCategory: React.Dispatch<React.SetStateAction<FilterMealContext>>;
   filterDrinksCategory: FilterDrinkContext;
-  setFilterDrinksCategory: React.Dispatch<React.SetStateAction<FilterDrinkContext>>
+  setFilterDrinksCategory: React.Dispatch<React.SetStateAction<FilterDrinkContext>>;
+  recipe: RecipeMeal | RecipeDrink ;
+  setRecipe: React.Dispatch<React.SetStateAction<RecipeMeal>>
 };
 
 const RecipeContext = createContext<RecipeContextType>({
@@ -51,6 +55,8 @@ const RecipeContext = createContext<RecipeContextType>({
   setFilterMealsCategory: () => {},
   filterDrinksCategory: INITIAL_STATE_DRINK,
   setFilterDrinksCategory: () => {},
+  recipe: INITIAL_VALUE_RECIPE_MEAL || INITIAL_VALUE_RECIPE_DRINK,
+  setRecipe: () => {},
 });
 
 export function useRecipeContext() {
@@ -67,6 +73,9 @@ export function RecipeProvider({ children }: RecipeProviderProps) {
   const [clickButton, setClickButton] = useState(false);
   const [filterMealsCategory, setFilterMealsCategory] = useState(INITIAL_STATE_MEAL);
   const [filterDrinksCategory, setFilterDrinksCategory] = useState(INITIAL_STATE_DRINK);
+  const [recipe, setRecipe] = useState(
+    INITIAL_VALUE_RECIPE_MEAL || INITIAL_VALUE_RECIPE_DRINK,
+  );
 
   return (
     <RecipeContext.Provider
@@ -81,6 +90,8 @@ export function RecipeProvider({ children }: RecipeProviderProps) {
         setFilterMealsCategory,
         filterDrinksCategory,
         setFilterDrinksCategory,
+        recipe,
+        setRecipe,
       } }
     >
       {children}

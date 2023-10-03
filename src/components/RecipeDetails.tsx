@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecipeContext } from '../context/search-results-context';
 
 function RecipeDetails() {
+  const { recipe, setRecipe } = useRecipeContext();
   const { id } = useParams(); // Obtém o ID da receita dos parâmetros da URL
-  const [recipe, setRecipe] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
