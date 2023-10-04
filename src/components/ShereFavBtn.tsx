@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { useRecipeContext } from '../context/search-results-context';
 
 function ShareFavBtn() {
   const { recipe } = useRecipeContext();
-  console.log(recipe);
   const [copied, setCopied] = useState(false);
   const location = useLocation();
   const { pathname } = location;
   const params = useParams();
   const { id } = params;
+  const [imagem, setImagem] = useState('');
+
+  useEffect(() => {
+    if (localStorage.getItem('favoriteRecipes')?.includes(id)) {
+      setImagem(blackHeartIcon);
+    } else {
+      setImagem(whiteHeartIcon);
+    }
+  }, []);
 
   function mealOrDrink() {
     if (pathname.includes('meal')) {
@@ -19,7 +28,6 @@ function ShareFavBtn() {
     } return 'drink';
   }
   const type = mealOrDrink();
-  console.log(type);
 
   const handleShare = () => {
     navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
@@ -27,6 +35,14 @@ function ShareFavBtn() {
   };
 
   function handleStorageFavorite() {
+    if (localStorage.getItem('favoriteRecipes') !== null) {
+      localStorage.removeItem('favoriteRecipes');
+      setImagem(whiteHeartIcon);
+      console.log('Valor removido com sucesso.');
+    } else {
+      setImagem(blackHeartIcon);
+      console.log('O valor não existe na chave.');
+    }
     const favorite = [
       { id,
         type,
@@ -50,10 +66,13 @@ function ShareFavBtn() {
       </button>
       <button
         type="button"
-        data-testid="favorite-btn"
         onClick={ handleStorageFavorite }
       >
-        <img src={ whiteHeartIcon } alt="favorite" />
+        <img
+          src={ imagem }
+          data-testid="favorite-btn"
+          alt="favorite"
+        />
       </button>
       {copied && <div>Link copied!</div>}
     </div>
