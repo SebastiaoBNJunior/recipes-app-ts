@@ -9,7 +9,7 @@ function RecipeDrinkInProgress() {
   const [recipeData, setRecipeData] = useState<ReturnFetchDrinksByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<{
     [key:number]: boolean;
-  }>({});
+  }>(JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`)) || {});
 
   async function returnDrinksAPI() {
     const drinksAPI = await fetchDrinksByIdRecipe(id);
@@ -21,7 +21,8 @@ function RecipeDrinkInProgress() {
 
   useEffect(() => {
     returnDrinksAPI();
-  }, []);
+    localStorage.setItem(`inProgressRecipes-${id}`, JSON.stringify(ingredientStatus));
+  }, [ingredientStatus, id]);
 
   console.log(recipeData);
 
@@ -74,6 +75,7 @@ function RecipeDrinkInProgress() {
                 type="checkbox"
                 name={ String(ingredient) }
                 onClick={ () => toogleIngredStatus(index) }
+                checked={ ingredientStatus[index] || false }
               />
               {ingredient[1]}
             </label>

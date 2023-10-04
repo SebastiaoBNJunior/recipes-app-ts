@@ -9,7 +9,7 @@ function RecipeMealInProgress() {
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<{
     [key: number]: boolean;
-  }>({});
+  }>(JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`)) || {});
 
   async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
@@ -21,7 +21,8 @@ function RecipeMealInProgress() {
 
   useEffect(() => {
     returnMealsAPI();
-  }, []);
+    localStorage.setItem(`inProgressRecipes-${id}`, JSON.stringify(ingredientStatus));
+  }, [ingredientStatus, id]);
 
   console.log(recipeData);
 
@@ -70,6 +71,7 @@ function RecipeMealInProgress() {
                 type="checkbox"
                 name={ String(ingredient) }
                 onClick={ () => toogleIngredStatus(index) }
+                checked={ ingredientStatus[index] || false }
               />
               {ingredient[1]}
             </label>
