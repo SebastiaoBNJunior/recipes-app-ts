@@ -7,7 +7,9 @@ function RecipeMealInProgress() {
   const { id } = useParams();
   console.log(id);
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
-  const [ingredStatus, setIngredStatus] = useState<{ [key: number]: boolean }>({});
+  const [ingredientStatus, setIngredientStatus] = useState<{
+    [key: number]: boolean;
+  }>({});
 
   async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
@@ -36,7 +38,7 @@ function RecipeMealInProgress() {
   console.log(mealsFilter);
 
   const toogleIngredStatus = (index: number) => {
-    setIngredStatus((prevState) => ({
+    setIngredientStatus((prevState) => ({
       ...prevState,
       [index]: !prevState[index],
     }));
@@ -59,7 +61,7 @@ function RecipeMealInProgress() {
               htmlFor={ String(ingredient) }
               data-testid={ `${index}-ingredient-step` }
               style={ {
-                textDecoration: ingredStatus[index]
+                textDecoration: ingredientStatus[index]
                   ? 'line-through solid rgb(0, 0, 0)'
                   : 'none',
               } }
