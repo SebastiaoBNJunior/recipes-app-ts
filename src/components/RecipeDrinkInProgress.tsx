@@ -7,6 +7,7 @@ function RecipeDrinkInProgress() {
   const { id } = useParams();
   console.log(id);
   const [recipeData, setRecipeData] = useState<ReturnFetchDrinksByIdRecipe>();
+  const [ingredStatus, setIngredStatus] = useState<{ [key:number]: boolean }>({});
 
   async function returnDrinksAPI() {
     const drinksAPI = await fetchDrinksByIdRecipe(id);
@@ -35,6 +36,13 @@ function RecipeDrinkInProgress() {
   )).filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
   console.log(filterDrinks);
 
+  const toogleIngredStatus = (index: number) => {
+    setIngredStatus((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
   return (
     <div>
       <img
@@ -54,10 +62,16 @@ function RecipeDrinkInProgress() {
             <label
               htmlFor={ String(ingredient) }
               data-testid={ `${index}-ingredient-step` }
+              style={ {
+                textDecoration: ingredStatus[index]
+                  ? 'line-through solid rgb(0, 0, 0)'
+                  : 'none',
+              } }
             >
               <input
                 type="checkbox"
                 name={ String(ingredient) }
+                onClick={ () => toogleIngredStatus(index) }
               />
               {ingredient[1]}
             </label>
