@@ -9,7 +9,9 @@ function RecipeMealInProgress() {
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<{
     [key: number]: boolean;
-  }>(JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`)) || {});
+  }>(
+    JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`) || '{}'),
+  );
 
   async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
@@ -80,8 +82,6 @@ function RecipeMealInProgress() {
       </div>
       <h2>Instruções:</h2>
       <p data-testid="instructions">{meal.strInstructions}</p>
-      <button data-testid="share-btn">Compartilhar</button>
-      <button data-testid="favorite-btn">Favoritar</button>
       <button data-testid="finish-recipe-btn">Finalizar Receita</button>
     </div>
   );

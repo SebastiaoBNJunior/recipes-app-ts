@@ -9,7 +9,9 @@ function RecipeDrinkInProgress() {
   const [recipeData, setRecipeData] = useState<ReturnFetchDrinksByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<{
     [key:number]: boolean;
-  }>(JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`)) || {});
+  }>(
+    JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`) || '{}'),
+  );
 
   async function returnDrinksAPI() {
     const drinksAPI = await fetchDrinksByIdRecipe(id);
@@ -84,8 +86,6 @@ function RecipeDrinkInProgress() {
       </div>
       <h2>Instructions:</h2>
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <button data-testid="share-btn">Share</button>
-      <button data-testid="favorite-btn">Favorite</button>
       <button data-testid="finish-recipe-btn">Finish Recipe</button>
     </div>
   );
