@@ -1,7 +1,8 @@
-import React, { CSSProperties } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 function StartRecipeButton() {
+  const [startContinueBtn, setStartContinueBtn] = useState('Start Recipe');
   const location = useLocation();
   const { pathname } = location;
 
@@ -16,6 +17,12 @@ function StartRecipeButton() {
     zIndex: 1000, // garante que aparece em cima de outros elementos
   };
 
+  useEffect(() => {
+    if (startContinueBtn === 'Start Recipe') {
+      setStartContinueBtn('Continue Recipe');
+    }
+  }, []);
+
   return (
     // Renderiza o botão como um link para a tela de receita em progresso
     <button>
@@ -24,7 +31,7 @@ function StartRecipeButton() {
         style={ buttonStyle }
         data-testid="start-recipe-btn"
       >
-        Start Recipe
+        {startContinueBtn}
       </Link>
     </button>
   );
