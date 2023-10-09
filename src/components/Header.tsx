@@ -14,13 +14,16 @@ function Header({ title, search = false }:HeaderProps) {
 
   const handleInputChange = (e:any) => {
     setInputValue(e.target.value);
+    // console.log('Foi feito a busca no input');
   };
 
   function handlerBtn() {
     if (!button) {
       setButton(true);
+      // console.log('Cliquei no botão search!');
     } else {
       setButton(false);
+      // console.log('Cliquei no botão search mas falhou!');
     }
   }
   return (

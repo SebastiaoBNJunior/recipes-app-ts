@@ -61,6 +61,7 @@ function SearchBar(props:ComponentsProps) {
   };
 
   const handleSearch = async () => {
+    console.log('Foi clicado no botão buscar com o Salt');
     const fetchFunction = determineFetchFunction();
     const jsonData = await fetchRecipeData(fetchFunction);
 

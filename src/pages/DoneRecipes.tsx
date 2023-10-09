@@ -1,9 +1,21 @@
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function DoneRecipes() {
+  const navigate = useNavigate();
+  const handleBackProfile = () => {
+    navigate('/profile');
+  };
+
   return (
     <>
+      <button
+        data-testid="profile-back-btn"
+        onClick={ handleBackProfile }
+      >
+        Voltar
+      </button>
       <Header title="Done Recipes" />
       <p data-testid="filter-by-all-btn">O</p>
       <p data-testid="filter-by-meal-btn">O</p>

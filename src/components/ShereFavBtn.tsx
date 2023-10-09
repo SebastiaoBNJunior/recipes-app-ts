@@ -38,10 +38,10 @@ function ShareFavBtn() {
     if (localStorage.getItem('favoriteRecipes') !== null) {
       localStorage.removeItem('favoriteRecipes');
       setImagem(whiteHeartIcon);
-      console.log('Valor removido com sucesso.');
+      // console.log('Valor removido com sucesso.');
     } else {
       setImagem(blackHeartIcon);
-      console.log('O valor não existe na chave.');
+      // console.log('O valor não existe na chave.');
     }
     const favorite = [
       { id,
