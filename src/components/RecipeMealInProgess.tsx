@@ -5,7 +5,6 @@ import { ReturnFetchMealsByIdRecipe } from '../typesCleidson';
 
 function RecipeMealInProgress() {
   const { id } = useParams();
-  console.log(id);
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<{
     [key: number]: boolean;
@@ -17,7 +16,6 @@ function RecipeMealInProgress() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
     // console.log(mealsAPI);
     const data = await mealsAPI.json();
-    console.log(data);
     setRecipeData(data);
   }
 
@@ -25,8 +23,6 @@ function RecipeMealInProgress() {
     returnMealsAPI();
     localStorage.setItem(`inProgressRecipes-${id}`, JSON.stringify(ingredientStatus));
   }, [ingredientStatus, id]);
-
-  console.log(recipeData);
 
   if (!recipeData) {
     return <div>Carregando...</div>;
@@ -38,7 +34,9 @@ function RecipeMealInProgress() {
   const mealsFilter = ingredientOfArray.filter((ingredient) => (
     ingredient[0].includes('strIngredient')
   )).filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
-  console.log(mealsFilter);
+  // console.log(mealsFilter);
+  const returnMealsFilter = mealsFilter.map((element) => element[1]);
+  console.log(returnMealsFilter);
 
   const toogleIngredStatus = (index: number) => {
     setIngredientStatus((prevState) => ({
