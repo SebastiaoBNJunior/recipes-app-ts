@@ -9,37 +9,36 @@ function RecipeMealInProgress() {
   const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
   const [mealsFilter, setMealsFilter] = useState<Array<[string, string]>>([]);
 
-  // Função para inicializar ingredientStatus com base no localStorage
-  function initializeIngredientStatus() {
+  function getCheckedIngredientsFromLocalStorage(id) {
     const inProgressRecipes = JSON.parse(localStorage
       .getItem('inProgressRecipes') || '{}');
     const inProgressMeals = inProgressRecipes.meals || {};
     const loadedIngredients = inProgressMeals[id] || [];
+    const loadedIngredientStatus = {};
 
-    const initialIngredientStatus = Object.fromEntries(
-      mealsFilter
-        .filter(ingredient => loadedIngredients.includes(ingredient[1]))
-        .map(ingredient => [ingredient[1], true]),
-    );
-
-    setIngredientStatus(initialIngredientStatus);
+    loadedIngredients.forEach((ingredient) => {
+      const ingredientName = ingredient;
+      // console.log(ingredientName);
+      loadedIngredientStatus[ingredientName] = loadedIngredients.includes(ingredientName);
+    });
+    // console.log(loadedIngredientStatus);
+    console.log(inProgressRecipes);
+    return loadedIngredientStatus;
   }
 
-  // Função para retornar dados da API
   async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
     const data = await mealsAPI.json();
     setRecipeData(data);
   }
 
-  // Carregar dados do localStorage e da API quando o ID muda
   useEffect(() => {
-    initializeIngredientStatus();
+    const loadedIngredients = getCheckedIngredientsFromLocalStorage(id);
+    setIngredientStatus(loadedIngredients);
     returnMealsAPI();
   }, [id]);
 
   useEffect(() => {
-    // Configurar mealsFilter quando os dados da API estiverem disponíveis
     if (recipeData) {
       const { meals } = recipeData;
       const [meal] = meals;
@@ -54,18 +53,14 @@ function RecipeMealInProgress() {
 
   const toggleIngredStatus = (ingredientName: string) => {
     setIngredientStatus((prevStatus) => {
-      // Clone o estado anterior
       const newStatus = { ...prevStatus };
 
-      // Verifique se o ingrediente já está marcado e remova-o se estiver
       if (newStatus[ingredientName]) {
         delete newStatus[ingredientName];
       } else {
-        // Caso contrário, adicione-o
         newStatus[ingredientName] = true;
       }
 
-      // Atualize o localStorage com os nomes dos ingredientes
       const inProgressRecipes = JSON.parse(localStorage
         .getItem('inProgressRecipes') || '{}');
       const inProgressMeals = inProgressRecipes.meals || {};
@@ -76,6 +71,7 @@ function RecipeMealInProgress() {
       return newStatus;
     });
   };
+  // console.log(ingredientStatus);
 
   if (!recipeData) {
     return <div>Carregando...</div>;
