@@ -4,32 +4,78 @@ import { fetchMealsByIdRecipe } from '../api';
 import { ReturnFetchMealsByIdRecipe } from '../typesCleidson';
 
 function RecipeMealInProgress() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
-  const [ingredientStatus, setIngredientStatus] = useState<{
-    [key: number]: boolean;
-  }>();
+  const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
+  const [mealsFilter, setMealsFilter] = useState<Array<[string, string]>>([]);
 
+  // Função para inicializar ingredientStatus com base no localStorage
+  function initializeIngredientStatus() {
+    const inProgressRecipes = JSON.parse(localStorage
+      .getItem('inProgressRecipes') || '{}');
+    const inProgressMeals = inProgressRecipes.meals || {};
+    const loadedIngredients = inProgressMeals[id] || [];
+
+    const initialIngredientStatus = Object.fromEntries(
+      mealsFilter
+        .filter(ingredient => loadedIngredients.includes(ingredient[1]))
+        .map(ingredient => [ingredient[1], true]),
+    );
+
+    setIngredientStatus(initialIngredientStatus);
+  }
+
+  // Função para retornar dados da API
   async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
     const data = await mealsAPI.json();
     setRecipeData(data);
   }
 
+  // Carregar dados do localStorage e da API quando o ID muda
   useEffect(() => {
+    initializeIngredientStatus();
     returnMealsAPI();
-    localStorage.setItem('inProgressRecipes', JSON.stringify(ingredientStatus));
-    if (!ingredientStatus) {
-      console.log('aleatorio');
-      const initialLocalStorage = {
-        drinks: {},
-        meals: {
-          [id]: [],
-        },
-      };
-      setIngredientStatus(initialLocalStorage);
+  }, [id]);
+
+  useEffect(() => {
+    // Configurar mealsFilter quando os dados da API estiverem disponíveis
+    if (recipeData) {
+      const { meals } = recipeData;
+      const [meal] = meals;
+      const ingredientOfArray = Object.entries(meal);
+      const filteredIngredients = ingredientOfArray
+        .filter(ingredient => ingredient[0].includes('strIngredient'))
+        .filter(ingredient => ingredient[1] !== '' && ingredient[1] !== null);
+
+      setMealsFilter(filteredIngredients);
     }
-  }, [ingredientStatus, id]);
+  }, [recipeData]);
+
+  const toggleIngredStatus = (ingredientName: string) => {
+    setIngredientStatus((prevStatus) => {
+      // Clone o estado anterior
+      const newStatus = { ...prevStatus };
+
+      // Verifique se o ingrediente já está marcado e remova-o se estiver
+      if (newStatus[ingredientName]) {
+        delete newStatus[ingredientName];
+      } else {
+        // Caso contrário, adicione-o
+        newStatus[ingredientName] = true;
+      }
+
+      // Atualize o localStorage com os nomes dos ingredientes
+      const inProgressRecipes = JSON.parse(localStorage
+        .getItem('inProgressRecipes') || '{}');
+      const inProgressMeals = inProgressRecipes.meals || {};
+      inProgressMeals[id] = Object.keys(newStatus);
+      inProgressRecipes.meals = inProgressMeals;
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+
+      return newStatus;
+    });
+  };
 
   if (!recipeData) {
     return <div>Carregando...</div>;
@@ -37,30 +83,6 @@ function RecipeMealInProgress() {
 
   const { meals } = recipeData;
   const [meal] = meals;
-  const ingredientOfArray = Object.entries(meal);
-  const mealsFilter = ingredientOfArray.filter((ingredient) => (
-    ingredient[0].includes('strIngredient')
-  )).filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
-  const returnMealsFilter = mealsFilter.map((element) => element[1]);
-  console.log(returnMealsFilter);
-
-  const toogleIngredStatus = (ingredient: string) => {
-    const returnLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const valor = someRetorno(ingredient);
-    if (!valor) {
-      const novoEstado = returnLocalStorage.meals[id]
-        .filter((element: string) => element === ingredient);
-      setIngredientStatus(novoEstado);
-    }
-    returnLocalStorage.meals[id].push(ingredient);
-    setIngredientStatus(returnLocalStorage);
-    console.log(returnLocalStorage);
-  };
-
-  const someRetorno = (ingredient: string) => {
-    const returnLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    return returnLocalStorage.meals[id].some((ingred: string) => ingred === ingredient);
-  };
 
   return (
     <div>
@@ -69,8 +91,8 @@ function RecipeMealInProgress() {
         src={ meal.strMealThumb }
         alt={ meal.strMeal }
       />
-      <h1 data-testid="recipe-title">{ meal.strMeal }</h1>
-      <p data-testid="recipe-category">{ meal.strCategory }</p>
+      <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+      <p data-testid="recipe-category">{meal.strCategory}</p>
       <h2>Ingredientes:</h2>
       <div>
         {mealsFilter.map((ingredient, index) => (
@@ -79,7 +101,7 @@ function RecipeMealInProgress() {
               htmlFor={ String(ingredient) }
               data-testid={ `${index}-ingredient-step` }
               style={ {
-                textDecoration: ingredient[ingredientStatus]
+                textDecoration: ingredientStatus[ingredient[1]]
                   ? 'line-through solid rgb(0, 0, 0)'
                   : 'none',
               } }
@@ -87,8 +109,8 @@ function RecipeMealInProgress() {
               <input
                 type="checkbox"
                 name={ String(ingredient) }
-                onClick={ () => toogleIngredStatus(ingredient[1]) }
-                checked={ someRetorno(ingredient[1]) }
+                checked={ ingredientStatus[ingredient[1]] || false }
+                onChange={ () => toggleIngredStatus(ingredient[1]) }
               />
               {ingredient[1]}
             </label>
