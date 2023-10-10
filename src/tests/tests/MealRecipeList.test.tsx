@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../../App';
 import { renderWithRouter } from './renderWith';
@@ -92,66 +92,3 @@ describe('Testes da página MEALS:', async () => {
     await userEvent.click(searchButton);
   });
 });
-
-//   // Simulando erro na pesquisa:
-
-//   await userEvent.click(firstLetterOption);
-//   await userEvent.clear(searchInput);
-//   await userEvent.type(searchInput, '5');
-//   await userEvent.click(searchButton);
-
-//   // Simulando pesquisa com o rodape de drink
-
-//   const rodapeMealsIconDrink = await screen.getByTestId('drinks-bottom-btn');
-//   expect(rodapeMealsIconDrink).toBeInTheDocument();
-//   await userEvent.click(rodapeMealsIconDrink);
-
-//   // const titleDrink = await screen.findByText(/drinks/i);
-//   // expect(titleDrink).toBeInTheDocument();
-
-//   await userEvent.click(buttonSearchLupa);
-//   await userEvent.click(searchInput);
-//   await userEvent.type(searchInput, 'sugar');
-//   await userEvent.click(searchButton);
-
-//   // await userEvent.click(searchInput);
-//   // await userEvent.clear(searchInput);
-//   // await userEvent.type(searchInput, 'abs');
-//   // await userEvent.click(searchButton);
-
-//   // await expect(screen.getByRole('heading', { name: /sushi/i })).toBeInTheDocument();
-//   // const { getByText } = render(<RecipeDetails />);
-//   //   const sushiHeading = getByText('Seafood');
-//   //   expect(sushiHeading).toBeInTheDocument();
-// });
-
-// // test('Testando todo o caminho para login com falha e posteriormente o envio para a proxima página', async () => {
-// //   renderWithRouter(<App />);
-
-// //   const searchLupa = screen.getByTestId('search-top-btn');
-// // });
-
-// test('Testando pagina de login e tela de perfil', async () => {
-//   renderWithRouter(<App />);
-
-//   const inputEmail = screen.getByTestId('email-input');
-//   const inputPassword = screen.getByTestId('password-input');
-//   const buttonEntrar = screen.getByRole('button', { name: /entrar/i });
-
-//   expect(inputEmail).toBeInTheDocument();
-//   expect(inputPassword).toBeInTheDocument();
-//   expect(buttonEntrar).toBeInTheDocument();
-
-//   await userEvent.type(inputEmail, 'testegrupo23@gmail.com');
-//   await userEvent.type(inputPassword, 'pirulito123');
-//   await userEvent.click(buttonEntrar);
-
-//   // processos pós login
-
-//   const iconPerfil = screen.getByTestId('profile-top-btn');
-//   expect(iconPerfil).toBeInTheDocument();
-//   await userEvent.click(iconPerfil);
-
-//   // expect(screen.getByRole('heading', { name: /Profile/i })).toBeInTheDocument();
-//   // expect(screen.getByText('Profile')).toBeInTheDocument();
-//   // expect(screen.getByRole('heading', { name: /testegrupo23@gmail.com/i })).toBeInTheDocument();
