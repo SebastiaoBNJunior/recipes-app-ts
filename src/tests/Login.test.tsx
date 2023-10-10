@@ -1,13 +1,9 @@
-import { render, screen, fireEvent, getByText, queryByText, findByText, getAllByText } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { toBeInTheDocument, toBeVisible } from '@testing-library/jest-dom/matchers';
-import { vi } from 'vitest';
+
 import { renderWithRouter } from './tests/renderWith';
 import Login from '../components/Login';
 import App from '../App';
-import DetailsFood from '../pages/detailsFood';
-import RecipeDetails from '../components/RecipeDetails';
-import Profile from '../pages/Profile';
 
 // Definindo constantes para strings duplicadas
 const EMAIL_INPUT_TESTID = 'email-input';
