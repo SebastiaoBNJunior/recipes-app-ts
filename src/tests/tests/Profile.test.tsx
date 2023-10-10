@@ -2,10 +2,12 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import App from '../../App';
 import { renderWithRouter } from './renderWith';
+import { RecipeProvider } from '../../context/search-results-context';
 
 describe('Testes da página Profile:', async () => {
   test('Verificando a existencia de elementos ná pagina Profile', async () => {
-    renderWithRouter(<App />, { initialEntries: ['/profile'] });
+    // renderWithRouter(<App />, { initialEntries: ['/profile'] });
+    renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/profile' });
 
     expect(screen.getByRole('heading', { name: /Profile/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Done Recipes/i })).toBeInTheDocument();
@@ -16,7 +18,8 @@ describe('Testes da página Profile:', async () => {
   });
 
   test('Testando botões da página de Profile', async () => {
-    renderWithRouter(<App />, { initialEntries: ['/profile'] });
+    // renderWithRouter(<App />, { initialEntries: ['/profile'] });
+    renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/profile' });
 
     const buttonDoneRecipes = screen.getByTestId('profile-done-btn');
     const buttonFavoriteRecipes = screen.getByTestId('profile-favorite-btn');

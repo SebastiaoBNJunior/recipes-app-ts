@@ -2,10 +2,12 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import App from '../../App';
 import { renderWithRouter } from './renderWith';
+import { RecipeProvider } from '../../context/search-results-context';
 
 describe('Testes da página /DRINKS:', async () => {
   test('Capiturando elementos da página drinks', async () => {
-    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    // renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/drinks' });
 
     await new Promise((resolve) => { setTimeout(resolve, 3000); });
 
@@ -39,7 +41,8 @@ describe('Testes da página /DRINKS:', async () => {
     expect(allMenu).toBeInTheDocument();
   });
   test('Capiturando elementos da página drinks', async () => {
-    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    // renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/drinks' });
 
     const buttonSearchLupaa = screen.getByTestId('search-top-btn');
     await userEvent.click(buttonSearchLupaa);
@@ -65,7 +68,8 @@ describe('Testes da página /DRINKS:', async () => {
     await userEvent.click(searchButton);
   });
   test('Simulando erro de pesquisa em um campo option', async () => {
-    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    // renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/drinks' });
 
     const buttonSearchLupaa = screen.getByTestId('search-top-btn');
     await userEvent.click(buttonSearchLupaa);
