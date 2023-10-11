@@ -23,15 +23,15 @@ describe('Testes da página MEALS:', async () => {
     // Verificando os options e lupa da página Meaals:
     const ingredientOption = screen.getByTestId('ingredient-search-radio');
     const nameOption = screen.getByTestId('name-search-radio');
-    const firstLetterOption = screen.getByTestId('first-letter-search-radio');
-    const buttonSearchLupa = screen.getByTestId('search-top-btn');
+    // const firstLetterOption = screen.getByTestId('first-letter-search-radio');
+    // const buttonSearchLupa = screen.getByTestId('search-top-btn');
 
     expect(ingredientOption).toBeInTheDocument();
     expect(nameOption).toBeInTheDocument();
-    expect(firstLetterOption).toBeInTheDocument();
-    expect(buttonSearchLupa).toBeInTheDocument();
+    // expect(firstLetterOption).toBeInTheDocument();
+    // expect(buttonSearchLupa).toBeInTheDocument();
 
-    const searchMenu = await screen.findByTestId('exec-search-btn');
+    // const searchMenu = await screen.findByTestId('exec-search-btn');
     const beefMenu = await screen.findByTestId('Beef-category-filter');
     const breakfastMenu = await screen.findByTestId('Breakfast-category-filter');
     const chickenMenu = await screen.findByTestId('Chicken-category-filter');
@@ -39,7 +39,7 @@ describe('Testes da página MEALS:', async () => {
     const goatMenu = await screen.findByTestId('Goat-category-filter');
     const allMenu = await screen.findByTestId('All-category-filter');
 
-    expect(searchMenu).toBeInTheDocument();
+    // expect(searchMenu).toBeInTheDocument();
     expect(beefMenu).toBeInTheDocument();
     expect(breakfastMenu).toBeInTheDocument();
     expect(chickenMenu).toBeInTheDocument();
@@ -51,8 +51,9 @@ describe('Testes da página MEALS:', async () => {
     // renderWithRouter(<App />, { initialEntries: ['/meals'] });
     renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/meals' });
 
-    const buttonSearchLupaa = screen.getByTestId('search-top-btn');
-    await userEvent.click(buttonSearchLupaa);
+    const buttonSearchLupa = screen.getByTestId('search-top-btn');
+    expect(buttonSearchLupa).toBeInTheDocument();
+    await userEvent.click(buttonSearchLupa);
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
 
@@ -69,6 +70,7 @@ describe('Testes da página MEALS:', async () => {
     await userEvent.click(searchButton);
 
     const firstLetterOption = screen.getByTestId('first-letter-search-radio');
+    expect(firstLetterOption).toBeInTheDocument();
     await userEvent.click(firstLetterOption);
     await userEvent.clear(searchInput);
     await userEvent.type(searchInput, 'S');

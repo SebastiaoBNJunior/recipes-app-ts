@@ -16,15 +16,14 @@ describe('Testes da página /DRINKS:', async () => {
 
     const ingredientOption = screen.getByTestId('ingredient-search-radio');
     const nameOption = screen.getByTestId('name-search-radio');
-    const firstLetterOption = screen.getByTestId('first-letter-search-radio');
-    const buttonSearchLupa = screen.getByTestId('search-top-btn');
+    // const firstLetterOption = screen.getByTestId('first-letter-search-radio');
+    // const buttonSearchLupa = screen.getByTestId('search-top-btn');
 
     expect(ingredientOption).toBeInTheDocument();
     expect(nameOption).toBeInTheDocument();
-    expect(firstLetterOption).toBeInTheDocument();
-    expect(buttonSearchLupa).toBeInTheDocument();
+    // expect(firstLetterOption).toBeInTheDocument();
+    // expect(buttonSearchLupa).toBeInTheDocument();
 
-    const searchMenu = await screen.findByTestId('exec-search-btn');
     const ordinaryDrikMenu = await screen.findByTestId('Ordinary Drink-category-filter');
     const cocktailMenu = await screen.findByTestId('Cocktail-category-filter');
     const shakeMenu = await screen.findByTestId('Shake-category-filter');
@@ -32,7 +31,6 @@ describe('Testes da página /DRINKS:', async () => {
     const cocoaMenu = await screen.findByTestId('Cocoa-category-filter');
     const allMenu = await screen.findByTestId('All-category-filter');
 
-    expect(searchMenu).toBeInTheDocument();
     expect(ordinaryDrikMenu).toBeInTheDocument();
     expect(cocktailMenu).toBeInTheDocument();
     expect(shakeMenu).toBeInTheDocument();
@@ -44,8 +42,9 @@ describe('Testes da página /DRINKS:', async () => {
     // renderWithRouter(<App />, { initialEntries: ['/drinks'] });
     renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/drinks' });
 
-    const buttonSearchLupaa = screen.getByTestId('search-top-btn');
-    await userEvent.click(buttonSearchLupaa);
+    const buttonSearchLupa = screen.getByTestId('search-top-btn');
+    expect(buttonSearchLupa).toBeInTheDocument();
+    await userEvent.click(buttonSearchLupa);
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
 
@@ -62,6 +61,7 @@ describe('Testes da página /DRINKS:', async () => {
     await userEvent.click(searchButton);
 
     const firstLetterOption = screen.getByTestId('first-letter-search-radio');
+    expect(firstLetterOption).toBeInTheDocument();
     await userEvent.click(firstLetterOption);
     await userEvent.clear(searchInput);
     await userEvent.type(searchInput, 'S');
