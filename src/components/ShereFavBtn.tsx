@@ -40,24 +40,26 @@ function ShareFavBtn() {
   };
 
   function handleStorageFavorite() {
-    if (localStorage.getItem('favoriteRecipes') !== null) {
-      localStorage.removeItem('favoriteRecipes');
+    const storedFavorites = localStorage.getItem('favoriteRecipes');
+    let favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+    const isFavorited = favorites.some((fav) => fav.id === id);
+    console.log(recipe);
+    if (isFavorited) {
+      favorites = favorites.filter((fav) => fav.id !== id);
       setImagem(whiteHeartIcon);
-      // console.log('Valor removido com sucesso.');
     } else {
-      setImagem(blackHeartIcon);
-      // console.log('O valor não existe na chave.');
-    }
-    const favorite = [
-      { id,
+      favorites.push({
+        id,
         type,
         nationality: recipe.strArea || '',
         category: recipe.strCategory || '',
         alcoholicOrNot: recipe.strAlcoholic || '',
         name: recipe.strMeal || recipe.strDrink,
-        image: recipe.strMealThumb || recipe.strDrinkThumb }];
-    const favoriteStringfy = JSON.stringify(favorite);
-    localStorage.setItem('favoriteRecipes', favoriteStringfy);
+        image: recipe.strMealThumb || recipe.strDrinkThumb,
+      });
+      setImagem(blackHeartIcon);
+    }
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favorites));
   }
 
   return (
