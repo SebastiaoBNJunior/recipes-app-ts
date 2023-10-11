@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
@@ -11,8 +12,19 @@ function FavoriteRecipes() {
   };
   const index = 0;
 
+  const navigate = useNavigate();
+  const handleBackProfile = () => {
+    navigate('/profile');
+  };
+
   return (
     <>
+      <button
+        data-testid="profile-back-btn"
+        onClick={ handleBackProfile }
+      >
+        Voltar
+      </button>
       <Header title="Favorite Recipes" />
       <button data-testid="filter-by-all-btn">
         All

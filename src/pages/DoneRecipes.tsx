@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import RecipeDone from '../components/RecipeDone';
 
 function DoneRecipes() {
+  const navigate = useNavigate();
+  const handleBackProfile = () => {
+    navigate('/profile');
+  };
   const [copied, setCopied] = useState(false);
 
   const handleShare = () => {
@@ -14,6 +17,12 @@ function DoneRecipes() {
 
   return (
     <>
+      <button
+        data-testid="profile-back-btn"
+        onClick={ handleBackProfile }
+      >
+        Voltar
+      </button>
       <Header title="Done Recipes" />
       <p data-testid="filter-by-all-btn">O</p>
       <p data-testid="filter-by-meal-btn">O</p>

@@ -30,6 +30,7 @@ function Login() {
     const emailLS = { email: userEmail };
     const emailStringfy = JSON.stringify(emailLS);
     localStorage.setItem('user', emailStringfy);
+    // console.log('o botão foi clicado');
   };
 
   return (
