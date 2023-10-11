@@ -1,8 +1,5 @@
 // import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './renderWith';
 import App from '../../App';
 import { RecipeProvider } from '../../context/search-results-context';
