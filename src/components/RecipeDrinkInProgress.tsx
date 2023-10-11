@@ -4,16 +4,16 @@ import { fetchDrinksByIdRecipe } from '../api';
 import { ReturnFetchDrinksByIdRecipe } from '../typesCleidson';
 
 function RecipeDrinkInProgress() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [recipeData, setRecipeData] = useState<ReturnFetchDrinksByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
   const [drinksFilter, setDrinksFilter] = useState<Array<[string, string]>>([]);
 
-  function getCheckedIngredientsFromLocalStorage(id) {
+  function getCheckedIngredientsFromLocalStorage(localId) {
     const inProgressRecipes = JSON.parse(localStorage
       .getItem('inProgressRecipes') || '{}');
     const inProgressDrinks = inProgressRecipes.drinks || {};
-    const loadedIngredients = inProgressDrinks[id] || [];
+    const loadedIngredients = inProgressDrinks[localId] || [];
     const loadedIngredientStatus = {};
 
     loadedIngredients.forEach((ingredient) => {
@@ -43,8 +43,8 @@ function RecipeDrinkInProgress() {
       const [drink] = drinks;
       const ingredientOfArray = Object.entries(drink);
       const filteredIngredients = ingredientOfArray
-        .filter(ingredient => ingredient[0].includes('strIngredient'))
-        .filter(ingredient => ingredient[1] !== '' && ingredient[1] !== null);
+        .filter((ingredient) => ingredient[0].includes('strIngredient'))
+        .filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
 
       setDrinksFilter(filteredIngredients);
     }

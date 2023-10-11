@@ -4,16 +4,16 @@ import { fetchMealsByIdRecipe } from '../api';
 import { ReturnFetchMealsByIdRecipe } from '../typesCleidson';
 
 function RecipeMealInProgress() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
   const [mealsFilter, setMealsFilter] = useState<Array<[string, string]>>([]);
 
-  function getCheckedIngredientsFromLocalStorage(id) {
+  function getCheckedIngredientsFromLocalStorage(localId) {
     const inProgressRecipes = JSON.parse(localStorage
       .getItem('inProgressRecipes') || '{}');
     const inProgressMeals = inProgressRecipes.meals || {};
-    const loadedIngredients = inProgressMeals[id] || [];
+    const loadedIngredients = inProgressMeals[localId] || [];
     const loadedIngredientStatus = {};
 
     loadedIngredients.forEach((ingredient) => {
@@ -44,8 +44,8 @@ function RecipeMealInProgress() {
       const [meal] = meals;
       const ingredientOfArray = Object.entries(meal);
       const filteredIngredients = ingredientOfArray
-        .filter(ingredient => ingredient[0].includes('strIngredient'))
-        .filter(ingredient => ingredient[1] !== '' && ingredient[1] !== null);
+        .filter((ingredient) => ingredient[0].includes('strIngredient'))
+        .filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
 
       setMealsFilter(filteredIngredients);
     }
