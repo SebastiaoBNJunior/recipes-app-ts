@@ -11,11 +11,11 @@ function RecipeInProgress() {
 
   return (
     <div>
+      <ShareFavBtn />
       {
         pathname.includes('drinks') ? <RecipeDrinkInProgress /> : <RecipeMealInProgress />
       }
       <StartRecipeButton />
-      <ShareFavBtn />
     </div>
 
   );

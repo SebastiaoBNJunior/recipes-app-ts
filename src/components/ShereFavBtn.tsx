@@ -30,8 +30,13 @@ function ShareFavBtn() {
   const type = mealOrDrink();
 
   const handleShare = () => {
-    navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
-    setCopied(true);
+    if (pathname.includes('meal')) {
+      navigator.clipboard.writeText(`http://localhost:3000/meals/${id}`);
+      setCopied(true);
+    } else if (pathname.includes('drink')) {
+      navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+      setCopied(true);
+    }
   };
 
   function handleStorageFavorite() {

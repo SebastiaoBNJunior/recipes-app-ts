@@ -1,8 +1,15 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function FavoriteRecipes() {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = () => {
+    navigator.clipboard.writeText('http://localhost:3000/meals/52771');
+    setCopied(true);
+  };
   const index = 0;
 
   const navigate = useNavigate();
@@ -37,9 +44,13 @@ function FavoriteRecipes() {
       <button data-testid="0-horizontal-name">
         Image
       </button>
-      <button data-testid="0-horizontal-share-btn">
+      <button
+        onClick={ handleShare }
+        data-testid="0-horizontal-share-btn"
+      >
         Image
       </button>
+      {copied && <div>Link copied!</div>}
       <button data-testid="0-horizontal-favorite-btn">
         Image
       </button>
