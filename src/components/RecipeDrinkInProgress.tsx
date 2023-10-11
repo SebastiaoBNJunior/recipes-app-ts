@@ -18,7 +18,6 @@ function RecipeDrinkInProgress() {
 
     loadedIngredients.forEach((ingredient) => {
       const ingredientName = ingredient;
-      // console.log(ingredientName);
       loadedIngredientStatus[ingredientName] = loadedIngredients.includes(ingredientName);
     });
     // console.log(loadedIngredientStatus);
