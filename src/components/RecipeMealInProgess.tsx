@@ -22,7 +22,7 @@ function RecipeMealInProgress() {
       loadedIngredientStatus[ingredientName] = loadedIngredients.includes(ingredientName);
     });
     // console.log(loadedIngredientStatus);
-    console.log(inProgressRecipes);
+    // console.log(inProgressRecipes);
     return loadedIngredientStatus;
   }
 
