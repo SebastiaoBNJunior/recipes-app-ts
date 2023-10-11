@@ -9,7 +9,6 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import Recipes from './pages/Recipes';
 import Footer from './components/Footer';
 import RecipeInProgress from './pages/RecipeInProgress';
-// import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   const location = useLocation();

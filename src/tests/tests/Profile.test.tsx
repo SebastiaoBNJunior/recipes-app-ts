@@ -4,7 +4,7 @@ import App from '../../App';
 import { renderWithRouter } from './renderWith';
 import { RecipeProvider } from '../../context/search-results-context';
 
-describe('Testes da página Profile:', async () => {
+describe('Testes da página PROFILE:', async () => {
   test('Verificando a existencia de elementos ná pagina Profile', async () => {
     // renderWithRouter(<App />, { initialEntries: ['/profile'] });
     renderWithRouter(<RecipeProvider><App /></RecipeProvider>, { route: '/profile' });

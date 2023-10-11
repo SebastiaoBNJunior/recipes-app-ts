@@ -14,7 +14,6 @@ function withRouter(component: React.ReactElement, initialEntries: string[]) {
     </MemoryRouter>
   );
 }
-
 // export function renderWithRouter(
 //   component: React.ReactElement,
 //   {
