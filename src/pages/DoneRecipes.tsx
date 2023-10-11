@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import RecipeDone from '../components/RecipeDone';
 
 function DoneRecipes() {
   const [copied, setCopied] = useState(false);

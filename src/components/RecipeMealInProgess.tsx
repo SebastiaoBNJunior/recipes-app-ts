@@ -5,26 +5,73 @@ import { ReturnFetchMealsByIdRecipe } from '../typesCleidson';
 
 function RecipeMealInProgress() {
   const { id } = useParams();
-  console.log(id);
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
-  const [ingredientStatus, setIngredientStatus] = useState<{
-    [key: number]: boolean;
-  }>(JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`)) || {});
+  const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
+  const [mealsFilter, setMealsFilter] = useState<Array<[string, string]>>([]);
+
+  function getCheckedIngredientsFromLocalStorage(localId) {
+    const inProgressRecipes = JSON.parse(localStorage
+      .getItem('inProgressRecipes') || '{}');
+    const inProgressMeals = inProgressRecipes.meals || {};
+    const loadedIngredients = inProgressMeals[localId] || [];
+    const loadedIngredientStatus = {};
+
+    loadedIngredients.forEach((ingredient) => {
+      const ingredientName = ingredient;
+      // console.log(ingredientName);
+      loadedIngredientStatus[ingredientName] = loadedIngredients.includes(ingredientName);
+    });
+    // console.log(loadedIngredientStatus);
+    // console.log(inProgressRecipes);
+    return loadedIngredientStatus;
+  }
 
   async function returnMealsAPI() {
     const mealsAPI = await fetchMealsByIdRecipe(id);
-    // console.log(mealsAPI);
     const data = await mealsAPI.json();
-    console.log(data);
     setRecipeData(data);
   }
 
   useEffect(() => {
+    const loadedIngredients = getCheckedIngredientsFromLocalStorage(id);
+    setIngredientStatus(loadedIngredients);
     returnMealsAPI();
-    localStorage.setItem(`inProgressRecipes-${id}`, JSON.stringify(ingredientStatus));
-  }, [ingredientStatus, id]);
+  }, [id]);
 
-  console.log(recipeData);
+  useEffect(() => {
+    if (recipeData) {
+      const { meals } = recipeData;
+      const [meal] = meals;
+      const ingredientOfArray = Object.entries(meal);
+      const filteredIngredients = ingredientOfArray
+        .filter((ingredient) => ingredient[0].includes('strIngredient'))
+        .filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
+
+      setMealsFilter(filteredIngredients);
+    }
+  }, [recipeData]);
+
+  const toggleIngredStatus = (ingredientName: string) => {
+    setIngredientStatus((prevStatus) => {
+      const newStatus = { ...prevStatus };
+
+      if (newStatus[ingredientName]) {
+        delete newStatus[ingredientName];
+      } else {
+        newStatus[ingredientName] = true;
+      }
+
+      const inProgressRecipes = JSON.parse(localStorage
+        .getItem('inProgressRecipes') || '{}');
+      const inProgressMeals = inProgressRecipes.meals || {};
+      inProgressMeals[id] = Object.keys(newStatus);
+      inProgressRecipes.meals = inProgressMeals;
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+
+      return newStatus;
+    });
+  };
+  // console.log(ingredientStatus);
 
   if (!recipeData) {
     return <div>Carregando...</div>;
@@ -32,18 +79,6 @@ function RecipeMealInProgress() {
 
   const { meals } = recipeData;
   const [meal] = meals;
-  const ingredientOfArray = Object.entries(meal);
-  const mealsFilter = ingredientOfArray.filter((ingredient) => (
-    ingredient[0].includes('strIngredient')
-  )).filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
-  console.log(mealsFilter);
-
-  const toogleIngredStatus = (index: number) => {
-    setIngredientStatus((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }));
-  };
 
   return (
     <div>
@@ -52,8 +87,8 @@ function RecipeMealInProgress() {
         src={ meal.strMealThumb }
         alt={ meal.strMeal }
       />
-      <h1 data-testid="recipe-title">{ meal.strMeal }</h1>
-      <p data-testid="recipe-category">{ meal.strCategory }</p>
+      <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+      <p data-testid="recipe-category">{meal.strCategory}</p>
       <h2>Ingredientes:</h2>
       <div>
         {mealsFilter.map((ingredient, index) => (
@@ -62,7 +97,7 @@ function RecipeMealInProgress() {
               htmlFor={ String(ingredient) }
               data-testid={ `${index}-ingredient-step` }
               style={ {
-                textDecoration: ingredientStatus[index]
+                textDecoration: ingredientStatus[ingredient[1]]
                   ? 'line-through solid rgb(0, 0, 0)'
                   : 'none',
               } }
@@ -70,8 +105,8 @@ function RecipeMealInProgress() {
               <input
                 type="checkbox"
                 name={ String(ingredient) }
-                onClick={ () => toogleIngredStatus(index) }
-                checked={ ingredientStatus[index] || false }
+                checked={ ingredientStatus[ingredient[1]] || false }
+                onChange={ () => toggleIngredStatus(ingredient[1]) }
               />
               {ingredient[1]}
             </label>
@@ -80,8 +115,6 @@ function RecipeMealInProgress() {
       </div>
       <h2>Instruções:</h2>
       <p data-testid="instructions">{meal.strInstructions}</p>
-      <button data-testid="share-btn">Compartilhar</button>
-      <button data-testid="favorite-btn">Favoritar</button>
       <button data-testid="finish-recipe-btn">Finalizar Receita</button>
     </div>
   );

@@ -4,27 +4,72 @@ import { fetchDrinksByIdRecipe } from '../api';
 import { ReturnFetchDrinksByIdRecipe } from '../typesCleidson';
 
 function RecipeDrinkInProgress() {
-  const { id } = useParams();
-  console.log(id);
+  const { id } = useParams<{ id: string }>();
   const [recipeData, setRecipeData] = useState<ReturnFetchDrinksByIdRecipe>();
-  const [ingredientStatus, setIngredientStatus] = useState<{
-    [key:number]: boolean;
-  }>(JSON.parse(localStorage.getItem(`inProgressRecipes-${id}`)) || {});
+  const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
+  const [drinksFilter, setDrinksFilter] = useState<Array<[string, string]>>([]);
+
+  function getCheckedIngredientsFromLocalStorage(localId) {
+    const inProgressRecipes = JSON.parse(localStorage
+      .getItem('inProgressRecipes') || '{}');
+    const inProgressDrinks = inProgressRecipes.drinks || {};
+    const loadedIngredients = inProgressDrinks[localId] || [];
+    const loadedIngredientStatus = {};
+
+    loadedIngredients.forEach((ingredient) => {
+      const ingredientName = ingredient;
+      loadedIngredientStatus[ingredientName] = loadedIngredients.includes(ingredientName);
+    });
+    // console.log(loadedIngredientStatus);
+    // console.log(inProgressRecipes);
+    return loadedIngredientStatus;
+  }
 
   async function returnDrinksAPI() {
     const drinksAPI = await fetchDrinksByIdRecipe(id);
-    console.log(drinksAPI);
     const data = await drinksAPI.json();
-    console.log(data);
     setRecipeData(data);
   }
 
   useEffect(() => {
+    const loadedIngredients = getCheckedIngredientsFromLocalStorage(id);
+    setIngredientStatus(loadedIngredients);
     returnDrinksAPI();
-    localStorage.setItem(`inProgressRecipes-${id}`, JSON.stringify(ingredientStatus));
-  }, [ingredientStatus, id]);
+  }, [id]);
 
-  console.log(recipeData);
+  useEffect(() => {
+    if (recipeData) {
+      const { drinks } = recipeData;
+      const [drink] = drinks;
+      const ingredientOfArray = Object.entries(drink);
+      const filteredIngredients = ingredientOfArray
+        .filter((ingredient) => ingredient[0].includes('strIngredient'))
+        .filter((ingredient) => ingredient[1] !== '' && ingredient[1] !== null);
+
+      setDrinksFilter(filteredIngredients);
+    }
+  }, [recipeData]);
+
+  const toggleIngredStatus = (ingredientName: string) => {
+    setIngredientStatus((prevStatus) => {
+      const newStatus = { ...prevStatus };
+
+      if (newStatus[ingredientName]) {
+        delete newStatus[ingredientName];
+      } else {
+        newStatus[ingredientName] = true;
+      }
+
+      const inProgressRecipes = JSON.parse(localStorage
+        .getItem('inProgressRecipes') || '{}');
+      const inProgressDrinks = inProgressRecipes.drinks || {};
+      inProgressDrinks[id] = Object.keys(newStatus);
+      inProgressRecipes.drinks = inProgressDrinks;
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+
+      return newStatus;
+    });
+  };
 
   if (!recipeData) {
     return <div>Carregando...</div>;
@@ -32,19 +77,6 @@ function RecipeDrinkInProgress() {
 
   const { drinks } = recipeData;
   const [drink] = drinks;
-  const ingredientArray = Object.entries(drink);
-  console.log(ingredientArray);
-  const filterDrinks = ingredientArray.filter((ingredient) => (
-    ingredient[0].includes('strIngredient')
-  )).filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '');
-  console.log(filterDrinks);
-
-  const toogleIngredStatus = (index: number) => {
-    setIngredientStatus((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }));
-  };
 
   return (
     <div>
@@ -60,13 +92,13 @@ function RecipeDrinkInProgress() {
       )}
       <h2>Ingredients:</h2>
       <div>
-        {filterDrinks.map((ingredient, index) => (
+        {drinksFilter.map((ingredient, index) => (
           <span key={ index }>
             <label
               htmlFor={ String(ingredient) }
               data-testid={ `${index}-ingredient-step` }
               style={ {
-                textDecoration: ingredientStatus[index]
+                textDecoration: ingredientStatus[ingredient[1]]
                   ? 'line-through solid rgb(0, 0, 0)'
                   : 'none',
               } }
@@ -74,8 +106,8 @@ function RecipeDrinkInProgress() {
               <input
                 type="checkbox"
                 name={ String(ingredient) }
-                onClick={ () => toogleIngredStatus(index) }
-                checked={ ingredientStatus[index] || false }
+                checked={ ingredientStatus[ingredient[1]] || false }
+                onClick={ () => toggleIngredStatus(ingredient[1]) }
               />
               {ingredient[1]}
             </label>
@@ -84,8 +116,6 @@ function RecipeDrinkInProgress() {
       </div>
       <h2>Instructions:</h2>
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <button data-testid="share-btn">Share</button>
-      <button data-testid="favorite-btn">Favorite</button>
       <button data-testid="finish-recipe-btn">Finish Recipe</button>
     </div>
   );
