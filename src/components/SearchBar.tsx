@@ -42,13 +42,10 @@ function SearchBar(props:ComponentsProps) {
     return searchType === FIRST_LETTER && valueInput.length !== 1;
   };
 
-  const shouldShowNoResultsAlert = (jsonData: any) => {
-    return (
-      (!jsonData.meals || !Array.isArray(jsonData.meals) || jsonData.meals.length === 0)
-      && (!jsonData.drinks || !Array
-        .isArray(jsonData.drinks) || jsonData.drinks.length === 0)
-    );
-  };
+  // const shouldShowNoResultsAlert = (jsonData: any) => {
+  //   return (
+  //   );
+  // };
 
   const updateResults = (jsonData: any) => {
     if (isDrinksPage) {
@@ -70,7 +67,9 @@ function SearchBar(props:ComponentsProps) {
       return;
     }
 
-    if (shouldShowNoResultsAlert(jsonData)) {
+    if ((!jsonData.meals || !Array.isArray(jsonData.meals) || jsonData.meals.length === 0)
+    && (!jsonData.drinks || !Array
+      .isArray(jsonData.drinks) || jsonData.drinks.length === 0)) {
       alert("Sorry, we haven't found any recipes for these filters.");
       return;
     }

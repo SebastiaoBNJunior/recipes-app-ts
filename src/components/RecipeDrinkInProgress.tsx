@@ -107,7 +107,7 @@ function RecipeDrinkInProgress() {
                 type="checkbox"
                 name={ String(ingredient) }
                 checked={ ingredientStatus[ingredient[1]] || false }
-                onClick={ () => toggleIngredStatus(ingredient[1]) }
+                onChange={ () => toggleIngredStatus(ingredient[1]) }
               />
               {ingredient[1]}
             </label>
