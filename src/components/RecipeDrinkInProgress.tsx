@@ -8,6 +8,7 @@ function RecipeDrinkInProgress() {
   const [recipeData, setRecipeData] = useState<ReturnFetchDrinksByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
   const [drinksFilter, setDrinksFilter] = useState<Array<[string, string]>>([]);
+  const [allIngredientsChecked, setAllIngredientsChecked] = useState(false);
 
   function getCheckedIngredientsFromLocalStorage(localId) {
     const inProgressRecipes = JSON.parse(localStorage
@@ -30,6 +31,24 @@ function RecipeDrinkInProgress() {
     const data = await drinksAPI.json();
     setRecipeData(data);
   }
+
+  useEffect(() => {
+    function checkAllIngredientsAreChecked() {
+      const areAllIngredientsChecked = drinksFilter.every(
+        (ingredient) => ingredientStatus[ingredient[1]],
+      );
+      setAllIngredientsChecked(areAllIngredientsChecked);
+    }
+
+    checkAllIngredientsAreChecked();
+  }, [drinksFilter, ingredientStatus]);
+
+  useEffect(() => {
+    const areAllIngredientsChecked = drinksFilter.every(
+      (ingredient) => ingredientStatus[ingredient[1]],
+    );
+    setAllIngredientsChecked(areAllIngredientsChecked);
+  }, [ingredientStatus]);
 
   useEffect(() => {
     const loadedIngredients = getCheckedIngredientsFromLocalStorage(id);
@@ -116,7 +135,12 @@ function RecipeDrinkInProgress() {
       </div>
       <h2>Instructions:</h2>
       <p data-testid="instructions">{drink.strInstructions}</p>
-      <button data-testid="finish-recipe-btn">Finish Recipe</button>
+      <button
+        data-testid="finish-recipe-btn"
+        disabled={ !allIngredientsChecked }
+      >
+        Finish Recipe
+      </button>
     </div>
   );
 }

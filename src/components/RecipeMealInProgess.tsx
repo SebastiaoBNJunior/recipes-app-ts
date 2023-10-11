@@ -8,6 +8,7 @@ function RecipeMealInProgress() {
   const [recipeData, setRecipeData] = useState<ReturnFetchMealsByIdRecipe>();
   const [ingredientStatus, setIngredientStatus] = useState<Record<string, boolean>>({});
   const [mealsFilter, setMealsFilter] = useState<Array<[string, string]>>([]);
+  const [allIngredientsChecked, setAllIngredientsChecked] = useState(false);
 
   function getCheckedIngredientsFromLocalStorage(localId) {
     const inProgressRecipes = JSON.parse(localStorage
@@ -31,6 +32,24 @@ function RecipeMealInProgress() {
     const data = await mealsAPI.json();
     setRecipeData(data);
   }
+
+  useEffect(() => {
+    function checkAllIngredientsAreChecked() {
+      const areAllIngredientsChecked = mealsFilter.every(
+        (ingredient) => ingredientStatus[ingredient[1]],
+      );
+      setAllIngredientsChecked(areAllIngredientsChecked);
+    }
+
+    checkAllIngredientsAreChecked();
+  }, [mealsFilter, ingredientStatus]);
+
+  useEffect(() => {
+    const areAllIngredientsChecked = mealsFilter.every(
+      (ingredient) => ingredientStatus[ingredient[1]],
+    );
+    setAllIngredientsChecked(areAllIngredientsChecked);
+  }, [ingredientStatus]);
 
   useEffect(() => {
     const loadedIngredients = getCheckedIngredientsFromLocalStorage(id);
@@ -115,7 +134,12 @@ function RecipeMealInProgress() {
       </div>
       <h2>Instruções:</h2>
       <p data-testid="instructions">{meal.strInstructions}</p>
-      <button data-testid="finish-recipe-btn">Finalizar Receita</button>
+      <button
+        data-testid="finish-recipe-btn"
+        disabled={ !allIngredientsChecked }
+      >
+        Finalizar Receita
+      </button>
     </div>
   );
 }
